@@ -1,8 +1,6 @@
-import { useState } from "react";
+import { HeroBannerCarousel } from "./ui/carousel-nav";
 
 export default function HeroBanner() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-
   const slides = [
     {
       image:
@@ -21,30 +19,27 @@ export default function HeroBanner() {
     },
   ];
 
+  const slideElements = slides.map((slide, index) => (
+    <div
+      key={index}
+      className="relative h-[600px] md:h-[800px] overflow-hidden"
+    >
+      <img
+        src={slide.image}
+        alt={slide.alt}
+        className="w-full h-full object-cover"
+      />
+    </div>
+  ));
+
   return (
     <section className="relative w-full">
-      <div className="relative h-[600px] md:h-[800px] overflow-hidden">
-        <img
-          src={slides[currentSlide].image}
-          alt={slides[currentSlide].alt}
-          className="w-full h-full object-cover"
-        />
-      </div>
-
-      {/* Carousel dots */}
-      <div className="flex justify-center items-center gap-2 py-3 bg-white">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentSlide(index)}
-            className={`w-2 h-2 rounded-full transition-all ${
-              index === currentSlide
-                ? "bg-[#111] opacity-100"
-                : "bg-[#111] opacity-20"
-            }`}
-          />
-        ))}
-      </div>
+      <HeroBannerCarousel
+        slides={slideElements}
+        autoPlay={true}
+        autoPlayDelay={6000}
+        className="bg-white"
+      />
     </section>
   );
 }

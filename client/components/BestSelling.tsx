@@ -1,4 +1,4 @@
-import { Star } from "lucide-react";
+import { ProductRow } from "./ui/product-card";
 
 interface ColorOption {
   name: string;
@@ -59,39 +59,19 @@ export default function BestSelling() {
     },
   ];
 
-  const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, index) => (
-      <Star
-        key={index}
-        className={`w-2.5 h-2.5 ${
-          index < rating ? "fill-[#E91162] text-[#E91162]" : "text-gray-300"
-        }`}
-      />
-    ));
+  const handleQuickView = (productId: number) => {
+    console.log("Quick view product:", productId);
+    // Implement quick view modal logic here
   };
 
-  const renderColorOptions = (colors: ColorOption[]) => {
-    return (
-      <div className="flex gap-1 mt-2">
-        {colors.map((color, index) => (
-          <button
-            key={index}
-            className={`w-6 h-6 rounded-md border-2 ${
-              color.isSelected
-                ? "border-[#888883] border-2"
-                : "border-[#E8E8E1] border-[1.5px]"
-            }`}
-            style={{ backgroundColor: color.color }}
-            title={color.name}
-          />
-        ))}
-        {colors.length >= 5 && (
-          <button className="w-6 h-6 rounded-md border-[1.5px] border-[#E8E8E1] bg-white flex items-center justify-center text-[#4A4A4A] text-[15px]">
-            +
-          </button>
-        )}
-      </div>
-    );
+  const handleAddToCart = (productId: number) => {
+    console.log("Add to cart product:", productId);
+    // Implement add to cart logic here
+  };
+
+  const handleColorSelect = (productId: number, colorIndex: number) => {
+    console.log("Color selected:", productId, colorIndex);
+    // Implement color selection logic here
   };
 
   return (

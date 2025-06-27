@@ -118,6 +118,13 @@ export const CircularArrowButton: React.FC<CircularArrowButtonProps> = ({
     lg: "w-16 h-16",
   };
 
+  // Map button size to icon size
+  const iconSizeMap = {
+    sm: "sm", // 16px icon for small buttons
+    md: "md", // 18px icon for medium buttons
+    lg: "md", // 18px icon for large buttons
+  };
+
   const isHover = variant === "hover";
 
   return (
@@ -132,14 +139,19 @@ export const CircularArrowButton: React.FC<CircularArrowButtonProps> = ({
       )}
       {...props}
     >
-      <ArrowRightIcon
-        size="md"
-        variant={isHover ? "white" : "black"}
-        className={cn(
-          "transition-colors duration-200",
-          direction === "left" && "rotate-180",
-        )}
-      />
+      {direction === "right" ? (
+        <ArrowRightIcon
+          size={iconSizeMap[size] as "sm" | "md" | "lg"}
+          variant={isHover ? "white" : "black"}
+          className="transition-colors duration-200"
+        />
+      ) : (
+        <ArrowLeftIcon
+          size={iconSizeMap[size] as "sm" | "md" | "lg"}
+          variant={isHover ? "white" : "black"}
+          className="transition-colors duration-200"
+        />
+      )}
     </button>
   );
 };

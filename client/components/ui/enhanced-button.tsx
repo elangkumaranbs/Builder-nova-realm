@@ -1,6 +1,6 @@
 import React from "react";
 import { cn } from "@/lib/utils";
-import { ArrowRightIcon } from "./icons";
+import { ArrowRightIcon, ArrowLeftIcon } from "./icons";
 
 // Shop Now Button Component
 interface ShopNowButtonProps

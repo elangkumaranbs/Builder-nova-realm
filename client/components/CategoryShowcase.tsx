@@ -45,12 +45,11 @@ export default function CategoryShowcase() {
                     <h3 className="text-[#111] font-normal text-[28px] md:text-[32px] leading-[41.6px] mb-8">
                       {category.title}
                     </h3>
-                    <div className="flex items-center gap-2 group-hover:gap-4 transition-all">
-                      <div className="w-[69px] h-0.5 bg-[#111]"></div>
-                      <span className="text-[#111] font-semibold text-[14px] leading-[26.25px]">
-                        Shop Now
-                      </span>
-                    </div>
+                    <ShopNowButton
+                      text="Shop Now"
+                      onClick={() => console.log(`Shop ${category.title}`)}
+                      className="group-hover:scale-105 transition-transform duration-200"
+                    />
                   </div>
                 </div>
               </div>

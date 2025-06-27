@@ -1,3 +1,5 @@
+import { ShopNowButton } from "./ui/enhanced-button";
+
 export default function CategoryShowcase() {
   const categories = [
     {

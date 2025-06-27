@@ -6,6 +6,7 @@ import BestSelling from "../components/BestSelling";
 import InstagramFeed from "../components/InstagramFeed";
 import FeaturedArticle from "../components/FeaturedArticle";
 import Footer from "../components/Footer";
+import MobileBottomNavigation from "../components/MobileBottomNavigation";
 
 export default function Index() {
   return (
@@ -18,6 +19,7 @@ export default function Index() {
       <InstagramFeed />
       <FeaturedArticle />
       <Footer />
+      <MobileBottomNavigation />
     </div>
   );
 }

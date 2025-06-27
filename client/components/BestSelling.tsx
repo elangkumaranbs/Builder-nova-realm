@@ -89,48 +89,12 @@ export default function BestSelling() {
 
         {/* Products Grid */}
         <div className="max-w-[1890px] mx-auto">
-          <div className="overflow-x-auto">
-            <div className="flex gap-5 min-w-max pb-4">
-              {products.map((product) => (
-                <div key={product.id} className="flex-shrink-0 w-[461px]">
-                  <div className="bg-white rounded-[5px] overflow-hidden group cursor-pointer">
-                    {/* Product Image */}
-                    <div className="h-[615px] overflow-hidden rounded-[5px]">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-
-                    {/* Product Info */}
-                    <div className="pt-4">
-                      <h3 className="text-[#111] text-[15px] font-normal leading-[19.5px] capitalize mb-1">
-                        {product.name}
-                      </h3>
-
-                      {/* Rating */}
-                      {product.rating && (
-                        <div className="flex items-center gap-1 py-2">
-                          {renderStars(product.rating)}
-                        </div>
-                      )}
-
-                      {/* Price */}
-                      <div className="py-1">
-                        <span className="text-[#111] text-[14px] font-medium leading-[24.5px]">
-                          {product.price}
-                        </span>
-                      </div>
-
-                      {/* Color Options */}
-                      {product.colors && renderColorOptions(product.colors)}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          <ProductRow
+            products={products}
+            onQuickView={handleQuickView}
+            onAddToCart={handleAddToCart}
+            onColorSelect={handleColorSelect}
+          />
         </div>
       </div>
     </section>

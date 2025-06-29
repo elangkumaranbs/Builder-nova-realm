@@ -22,7 +22,7 @@ export default function Header() {
           <div className="md:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 hover:text-[#ED1451] transition-colors"
+              className="p-2 hover:text-[#7C3AED] transition-colors"
             >
               <Menu className="w-6 h-6" />
             </button>

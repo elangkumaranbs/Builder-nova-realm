@@ -89,10 +89,12 @@ export default function Header({
 
           {/* Logo - Center on mobile, left on desktop */}
           <div className="flex-1 md:flex-none flex justify-center md:justify-start">
-            <Link to="/" className="h-8 md:h-12 flex items-center">
-              <span className="text-[20px] md:text-[24px] font-bold bg-gradient-to-r from-[#7C3AED] to-[#2563EB] bg-clip-text text-transparent">
-                Your Brand
-              </span>
+            <Link to="/" className="flex items-center">
+              <img
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/f8ef9c4dde67d4cf930390e0018cb8f6984fd4f2?width=593"
+                alt="Indian Flower"
+                className="h-8 md:h-12 w-auto max-w-[200px] md:max-w-[296px]"
+              />
             </Link>
           </div>
 

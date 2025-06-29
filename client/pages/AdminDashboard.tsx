@@ -14,7 +14,8 @@ import {
   Package,
   Users,
   ShoppingCart,
-  TrendingUp
+  TrendingUp,
+  Image as ImageIcon
 } from "lucide-react";
 
 interface Product {
@@ -64,6 +65,22 @@ export default function AdminDashboard() {
     totalUsers: 0,
     revenue: 0
   });
+
+  // Handle URL parameters for direct navigation
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tab = urlParams.get('tab');
+    const action = urlParams.get('action');
+    
+    if (tab) {
+      setActiveTab(tab);
+    }
+    
+    if (action === 'add' && tab === 'products') {
+      setShowProductModal(true);
+      setEditingProduct(null);
+    }
+  }, []);
 
   // Check if user is admin
   useEffect(() => {
@@ -171,8 +188,10 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleSaveProduct = async (productData: Partial<Product>) => {
+  const handleSaveProduct = async (productData: Partial<Product>, images: string[]) => {
     try {
+      let productId: string;
+
       if (editingProduct?.id) {
         // Update existing product
         const { error } = await supabase
@@ -181,13 +200,43 @@ export default function AdminDashboard() {
           .eq('id', editingProduct.id);
 
         if (error) throw error;
+        productId = editingProduct.id;
       } else {
         // Create new product
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from('products')
-          .insert(productData);
+          .insert(productData)
+          .select()
+          .single();
 
         if (error) throw error;
+        productId = data.id;
+      }
+
+      // Handle images
+      if (images.length > 0) {
+        // Delete existing images if updating
+        if (editingProduct?.id) {
+          await supabase
+            .from('product_images')
+            .delete()
+            .eq('product_id', productId);
+        }
+
+        // Insert new images
+        const imageInserts = images.map((imageUrl, index) => ({
+          product_id: productId,
+          image_url: imageUrl,
+          alt_text: productData.name || 'Product image',
+          sort_order: index,
+          is_primary: index === 0
+        }));
+
+        const { error: imageError } = await supabase
+          .from('product_images')
+          .insert(imageInserts);
+
+        if (imageError) throw imageError;
       }
 
       fetchProducts();
@@ -278,6 +327,15 @@ export default function AdminDashboard() {
               >
                 <Package className="inline w-4 h-4 mr-2" />
                 Products
+              </button>
+              <button
+                onClick={() => setActiveTab('categories')}
+                className={`w-full text-left px-4 py-2 rounded-lg transition-colors ${
+                  activeTab === 'categories' ? 'bg-[#7C3AED] text-white' : 'text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                <Package className="inline w-4 h-4 mr-2" />
+                Categories
               </button>
               <button
                 onClick={() => setActiveTab('orders')}
@@ -448,6 +506,15 @@ export default function AdminDashboard() {
             </div>
           )}
 
+          {activeTab === 'categories' && (
+            <div>
+              <h1 className="text-3xl font-bold text-gray-800 mb-8">Categories Management</h1>
+              <div className="bg-white p-8 rounded-lg shadow text-center">
+                <p className="text-gray-600">Categories management coming soon...</p>
+              </div>
+            </div>
+          )}
+
           {activeTab === 'orders' && (
             <div>
               <h1 className="text-3xl font-bold text-gray-800 mb-8">Orders Management</h1>
@@ -486,11 +553,11 @@ export default function AdminDashboard() {
   );
 }
 
-// Product Modal Component
+// Enhanced Product Modal Component with Image Upload
 interface ProductModalProps {
   product: Product | null;
   categories: Category[];
-  onSave: (product: Partial<Product>) => void;
+  onSave: (product: Partial<Product>, images: string[]) => void;
   onClose: () => void;
 }
 
@@ -508,6 +575,11 @@ function ProductModal({ product, categories, onSave, onClose }: ProductModalProp
     rating: product?.rating || 0,
   });
 
+  const [imageUrls, setImageUrls] = useState<string[]>(
+    product?.images?.map(img => img.image_url) || []
+  );
+  const [newImageUrl, setNewImageUrl] = useState('');
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -516,12 +588,33 @@ function ProductModal({ product, categories, onSave, onClose }: ProductModalProp
       formData.slug = formData.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
     }
     
-    onSave(formData);
+    onSave(formData, imageUrls);
+  };
+
+  const addImageUrl = () => {
+    if (newImageUrl.trim() && !imageUrls.includes(newImageUrl.trim())) {
+      setImageUrls([...imageUrls, newImageUrl.trim()]);
+      setNewImageUrl('');
+    }
+  };
+
+  const removeImage = (index: number) => {
+    setImageUrls(imageUrls.filter((_, i) => i !== index));
+  };
+
+  const moveImage = (index: number, direction: 'up' | 'down') => {
+    const newImages = [...imageUrls];
+    if (direction === 'up' && index > 0) {
+      [newImages[index], newImages[index - 1]] = [newImages[index - 1], newImages[index]];
+    } else if (direction === 'down' && index < newImages.length - 1) {
+      [newImages[index], newImages[index + 1]] = [newImages[index + 1], newImages[index]];
+    }
+    setImageUrls(newImages);
   };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center p-6 border-b">
           <h2 className="text-xl font-bold">
             {product ? 'Edit Product' : 'Add New Product'}
@@ -531,127 +624,218 @@ function ProductModal({ product, categories, onSave, onClose }: ProductModalProp
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Product Name *
-              </label>
-              <input
-                type="text"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED]"
-                required
-              />
+        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Left Column - Product Details */}
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Product Name *
+                </label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED]"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Category *
+                </label>
+                <select
+                  value={formData.category_id}
+                  onChange={(e) => setFormData({ ...formData, category_id: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED]"
+                  required
+                >
+                  <option value="">Select Category</option>
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Price *
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={formData.price}
+                    onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED]"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Original Price
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={formData.original_price}
+                    onChange={(e) => setFormData({ ...formData, original_price: parseFloat(e.target.value) })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED]"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    SKU
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.sku}
+                    onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Slug
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.slug}
+                    onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED]"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Description
+                </label>
+                <textarea
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  rows={4}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED]"
+                />
+              </div>
+
+              <div className="flex items-center space-x-6">
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={formData.is_active}
+                    onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
+                    className="mr-2"
+                  />
+                  Active
+                </label>
+
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={formData.is_hot_sale}
+                    onChange={(e) => setFormData({ ...formData, is_hot_sale: e.target.checked })}
+                    className="mr-2"
+                  />
+                  Hot Sale
+                </label>
+              </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Category *
-              </label>
-              <select
-                value={formData.category_id}
-                onChange={(e) => setFormData({ ...formData, category_id: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED]"
-                required
-              >
-                <option value="">Select Category</option>
-                {categories.map((category) => (
-                  <option key={category.id} value={category.id}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+            {/* Right Column - Product Images */}
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Product Images
+                </label>
+                
+                {/* Add Image URL */}
+                <div className="flex gap-2 mb-4">
+                  <input
+                    type="url"
+                    value={newImageUrl}
+                    onChange={(e) => setNewImageUrl(e.target.value)}
+                    placeholder="Enter image URL"
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED]"
+                  />
+                  <button
+                    type="button"
+                    onClick={addImageUrl}
+                    className="px-4 py-2 bg-[#7C3AED] text-white rounded-lg hover:bg-[#6D28D9] transition-colors"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Price *
-              </label>
-              <input
-                type="number"
-                step="0.01"
-                value={formData.price}
-                onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED]"
-                required
-              />
-            </div>
+                {/* Image List */}
+                <div className="space-y-2 max-h-64 overflow-y-auto">
+                  {imageUrls.map((url, index) => (
+                    <div key={index} className="flex items-center gap-3 p-3 border border-gray-200 rounded-lg">
+                      <img
+                        src={url}
+                        alt={`Product image ${index + 1}`}
+                        className="w-16 h-16 object-cover rounded"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = 'https://via.placeholder.com/64?text=Error';
+                        }}
+                      />
+                      <div className="flex-1">
+                        <p className="text-sm text-gray-600 truncate">{url}</p>
+                        {index === 0 && (
+                          <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                            Primary
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex gap-1">
+                        <button
+                          type="button"
+                          onClick={() => moveImage(index, 'up')}
+                          disabled={index === 0}
+                          className="p-1 text-gray-400 hover:text-gray-600 disabled:opacity-50"
+                        >
+                          ↑
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => moveImage(index, 'down')}
+                          disabled={index === imageUrls.length - 1}
+                          className="p-1 text-gray-400 hover:text-gray-600 disabled:opacity-50"
+                        >
+                          ↓
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => removeImage(index)}
+                          className="p-1 text-red-400 hover:text-red-600"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Original Price
-              </label>
-              <input
-                type="number"
-                step="0.01"
-                value={formData.original_price}
-                onChange={(e) => setFormData({ ...formData, original_price: parseFloat(e.target.value) })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED]"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                SKU
-              </label>
-              <input
-                type="text"
-                value={formData.sku}
-                onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED]"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Slug
-              </label>
-              <input
-                type="text"
-                value={formData.slug}
-                onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED]"
-              />
+                {imageUrls.length === 0 && (
+                  <div className="text-center py-8 border-2 border-dashed border-gray-300 rounded-lg">
+                    <ImageIcon className="w-12 h-12 text-gray-400 mx-auto mb-2" />
+                    <p className="text-gray-500">No images added yet</p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Description
-            </label>
-            <textarea
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              rows={4}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED]"
-            />
-          </div>
-
-          <div className="flex items-center space-x-6">
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                checked={formData.is_active}
-                onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
-                className="mr-2"
-              />
-              Active
-            </label>
-
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                checked={formData.is_hot_sale}
-                onChange={(e) => setFormData({ ...formData, is_hot_sale: e.target.checked })}
-                className="mr-2"
-              />
-              Hot Sale
-            </label>
-          </div>
-
-          <div className="flex justify-end space-x-4 pt-4">
+          <div className="flex justify-end space-x-4 pt-4 border-t">
             <button
               type="button"
               onClick={onClose}

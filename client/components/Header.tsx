@@ -2,6 +2,7 @@ import { Search, User, ShoppingCart, Menu, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { useAdmin } from "@/hooks/useAdmin";
 import LoginPage from "../pages/LoginPage";
 
 interface HeaderProps {
@@ -18,6 +19,7 @@ export default function Header({
   onCartToggle,
 }: HeaderProps) {
   const { user, signOut, loading } = useAuth();
+  const { isAdmin, adminUser } = useAdmin();
   const totalCartCount = cartItemsCount || cartCount;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -198,7 +200,7 @@ export default function Header({
                     
                     {/* User Dropdown */}
                     {showUserDropdown && (
-                      <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50 py-2">
+                      <div className="absolute right-0 top-full mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50 py-2">
                         <div className="px-4 py-2 border-b border-gray-100">
                           <p className="text-sm font-medium text-gray-900">
                             {user.user_metadata?.first_name && user.user_metadata?.last_name 
@@ -207,7 +209,62 @@ export default function Header({
                             }
                           </p>
                           <p className="text-xs text-gray-500">{user.email}</p>
+                          {isAdmin && (
+                            <span className="inline-block mt-1 px-2 py-1 text-xs bg-[#7C3AED] text-white rounded-full">
+                              {adminUser?.role === 'super_admin' ? 'Super Admin' : 'Admin'}
+                            </span>
+                          )}
                         </div>
+
+                        {/* Admin Product Management Section */}
+                        {isAdmin && (
+                          <>
+                            <div className="px-4 py-2 border-b border-gray-100">
+                              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
+                                Product Management
+                              </p>
+                              <div className="space-y-1">
+                                <Link
+                                  to="/admin"
+                                  className="block px-2 py-1 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#7C3AED] transition-colors rounded"
+                                  onClick={() => setShowUserDropdown(false)}
+                                >
+                                  Dashboard
+                                </Link>
+                                <Link
+                                  to="/admin?tab=products"
+                                  className="block px-2 py-1 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#7C3AED] transition-colors rounded"
+                                  onClick={() => setShowUserDropdown(false)}
+                                >
+                                  All Products
+                                </Link>
+                                <Link
+                                  to="/admin?tab=products&action=add"
+                                  className="block px-2 py-1 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#7C3AED] transition-colors rounded"
+                                  onClick={() => setShowUserDropdown(false)}
+                                >
+                                  Add Product
+                                </Link>
+                                <Link
+                                  to="/admin?tab=categories"
+                                  className="block px-2 py-1 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#7C3AED] transition-colors rounded"
+                                  onClick={() => setShowUserDropdown(false)}
+                                >
+                                  Categories
+                                </Link>
+                                <Link
+                                  to="/admin?tab=orders"
+                                  className="block px-2 py-1 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#7C3AED] transition-colors rounded"
+                                  onClick={() => setShowUserDropdown(false)}
+                                >
+                                  Orders
+                                </Link>
+                              </div>
+                            </div>
+                          </>
+                        )}
+
+                        {/* Regular User Options */}
                         <Link
                           to="/profile"
                           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"

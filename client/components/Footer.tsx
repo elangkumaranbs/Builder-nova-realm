@@ -46,7 +46,7 @@ export default function Footer() {
               <div className="space-y-4">
                 <div className="w-[90px] h-[90px]">
                   <img
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/5c6e30a1c8e3076bdc54928567d05dadcd5c9af3?width=180"
+                    src="https://cdn.builder.io/api/v1/image/assets%2F19caebe7de7b47ab8a6c24158562cc25%2F974cd8fe2806421093683de9d3f16b82"
                     alt="Indian Flower Logo"
                     className="w-full h-full object-cover"
                   />

@@ -17,7 +17,15 @@ interface Product {
   category?: string;
 }
 
-export default function BestSelling() {
+interface BestSellingProps {
+  onAddToCart?: (productId: number) => void;
+  onQuickView?: (productId: number) => void;
+}
+
+export default function BestSelling({
+  onAddToCart,
+  onQuickView,
+}: BestSellingProps) {
   // Complete leggings color palette from your list
   const leggingsColors: ColorOption[] = [
     { name: "White", color: "#FFFFFF" },

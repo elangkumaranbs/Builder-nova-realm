@@ -105,7 +105,7 @@ export default function Header({
 
           {/* Desktop Navigation - Center */}
           <nav className="hidden md:flex items-center flex-1 justify-center">
-            <ul className="flex items-center">
+            <ul className="flex items-center justify-center">
               {navigationItems.map((item, index) => (
                 <li
                   key={index}
@@ -117,7 +117,7 @@ export default function Header({
                 >
                   <a
                     href="#"
-                    className="flex items-center px-[15px] py-[9.5px] text-[#111] font-medium text-[15px] leading-[26.25px] hover:text-[#7C3AED] transition-colors font-jost"
+                    className="flex items-center px-[20px] py-[9.5px] text-[#111] font-medium text-[15px] leading-[26.25px] hover:text-[#7C3AED] transition-colors font-jost"
                   >
                     <span className="relative">
                       {item.name}
@@ -158,7 +158,7 @@ export default function Header({
           </nav>
 
           {/* Right side icons */}
-          <div className="flex items-center justify-end flex-1">
+          <div className="flex items-center justify-end flex-1 md:flex-none">
             <div className="flex items-center space-x-[20px]">
               <button
                 onClick={() => setIsSearchOpen(true)}

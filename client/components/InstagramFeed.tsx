@@ -1,71 +1,100 @@
 export default function InstagramFeed() {
-  const instagramImages = [
+  const socialPosts = [
     {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/880033c890209fec3432da3da4b308a2510cccee?width=954",
-      alt: "Instagram post 1",
+      content: "🌟 Customer Love: 'Best leggings ever! So comfortable!'",
+      user: "@happycustomer1",
+      likes: "💜 234",
     },
     {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/8f3f2677bb7ef8850c37031da0d8f3402101cf69?width=954",
-      alt: "Instagram post 2",
+      content: "📦 Just got my order! Fast delivery and great quality",
+      user: "@stylequeen",
+      likes: "💜 156",
     },
     {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/424d10910cfd294b280f1f2c29f61434c5f8e97d?width=954",
-      alt: "Instagram post 3",
+      content: "🎨 Love all the color options available!",
+      user: "@fashionista",
+      likes: "💜 189",
     },
     {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/95541320e9962213378c7d8de5f936d2f32b8f20?width=954",
-      alt: "Instagram post 4",
+      content: "👕 Men's t-shirts are perfect fit and quality",
+      user: "@fitguy",
+      likes: "💜 98",
     },
     {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/22c326670cc77b0813b54b06b65c817e2e0a27af?width=954",
-      alt: "Instagram post 5",
+      content: "✨ Shimmer leggings are absolutely gorgeous!",
+      user: "@sparkle_girl",
+      likes: "💜 267",
     },
     {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/07cd2ed6279b8b663b2085fcd38df4e527215789?width=954",
-      alt: "Instagram post 6",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/1d8fef86f0a7fed1c5282191423fcf09f66d333f?width=954",
-      alt: "Instagram post 7",
-    },
-    {
-      src: "https://cdn.builder.io/api/v1/image/assets/TEMP/302ddaca6933d5da9c31409ecc855f25510a867f?width=954",
-      alt: "Instagram post 8",
+      content: "🌙 Night wear collection is so comfy!",
+      user: "@comfy_sleeper",
+      likes: "💜 143",
     },
   ];
 
   return (
-    <section className="bg-white py-8">
-      <div className="max-w-[1920px] mx-auto">
-        {/* Section Title */}
-        <div className="text-center mb-8">
-          <h2 className="text-black text-[20px] font-bold leading-6">
-            Follow us on Instagram
+    <section className="bg-[#F8F9FA] py-16">
+      <div className="max-w-[1920px] mx-auto px-8">
+        {/* Section Header */}
+        <div className="text-center mb-12">
+          <h2 className="text-[#111] text-[36px] md:text-[45px] font-normal leading-[58.5px] mb-4">
+            What Our Customers Say
           </h2>
+          <p className="text-[#555] text-[14px] font-normal leading-[26.25px] mb-6">
+            Follow us on social media for latest updates and customer reviews
+          </p>
+          <div className="flex justify-center space-x-4">
+            <button className="bg-gradient-to-r from-[#7C3AED] to-[#2563EB] text-white px-6 py-2 rounded-full text-sm font-medium hover:shadow-lg transition-all duration-200">
+              Follow Us on Instagram
+            </button>
+            <button className="bg-white border border-gray-300 text-gray-700 px-6 py-2 rounded-full text-sm font-medium hover:shadow-lg transition-all duration-200">
+              Join Our Community
+            </button>
+          </div>
         </div>
 
-        {/* Instagram Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
-          {instagramImages.map((image, index) => (
+        {/* Social Posts Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {socialPosts.map((post, index) => (
             <div
               key={index}
-              className="relative group cursor-pointer overflow-hidden aspect-square"
+              className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow duration-200"
             >
-              <div className="absolute inset-0 bg-black bg-opacity-3 group-hover:bg-opacity-10 transition-all duration-300 z-10"></div>
-              <img
-                src={image.src}
-                alt={image.alt}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
+              <div className="flex items-start space-x-3">
+                <div className="w-10 h-10 bg-gradient-to-r from-[#7C3AED] to-[#2563EB] rounded-full flex items-center justify-center text-white font-bold text-sm">
+                  {post.user.charAt(1).toUpperCase()}
+                </div>
+                <div className="flex-1">
+                  <p className="text-gray-600 text-sm font-medium mb-1">
+                    {post.user}
+                  </p>
+                  <p className="text-gray-800 text-sm leading-relaxed mb-3">
+                    {post.content}
+                  </p>
+                  <div className="text-xs text-gray-500">{post.likes}</div>
+                </div>
+              </div>
             </div>
           ))}
         </div>
 
-        {/* Load More Button */}
-        <div className="text-center mt-8">
-          <button className="bg-[#E52A56] text-white px-3 py-1.5 rounded-[5px] text-[12px] font-bold uppercase hover:bg-[#d1225a] transition-colors">
-            Load more
-          </button>
+        {/* Call to Action */}
+        <div className="text-center mt-12">
+          <div className="bg-gradient-to-r from-[#7C3AED] to-[#2563EB] rounded-lg p-8 text-white">
+            <h3 className="text-[24px] font-bold mb-2">Share Your Style!</h3>
+            <p className="text-[16px] opacity-90 mb-4">
+              Tag us in your photos wearing our products for a chance to be
+              featured
+            </p>
+            <div className="flex justify-center space-x-4">
+              <span className="bg-white bg-opacity-20 px-4 py-2 rounded-full text-sm">
+                #YourBrandStyle
+              </span>
+              <span className="bg-white bg-opacity-20 px-4 py-2 rounded-full text-sm">
+                #ComfortFashion
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </section>

@@ -36,16 +36,10 @@ export default function HeroBanner() {
   return (
     <section className="relative w-full">
       {/* Mobile Hero Banner */}
-      <div className="md:hidden relative h-[400px] overflow-hidden">
-        <img
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/83955aac3423dc7f5e94748f69ac25398f3875cd?width=840"
-          alt="Ankle Leggings Collection"
-          className="w-full h-full object-cover"
-        />
-
-        {/* Mobile Content Overlay */}
-        <div className="absolute inset-0 flex items-center justify-start">
-          <div className="px-6 py-8 max-w-[280px]">
+      <div className="md:hidden relative h-[400px] overflow-hidden bg-gradient-to-r from-[#7C3AED] to-[#2563EB]">
+        {/* Mobile Content */}
+        <div className="flex items-center justify-center h-full">
+          <div className="text-center px-6 py-8">
             <p className="text-white text-[14px] font-normal leading-relaxed mb-2">
               Elevate your look with sleek and flattering
             </p>
@@ -54,21 +48,28 @@ export default function HeroBanner() {
               <br />
               Leggings
             </h1>
-            <button className="bg-gradient-to-r from-[#7C3AED] to-[#2563EB] hover:from-[#6D28D9] hover:to-[#1D4ED8] text-white px-6 py-3 rounded text-[14px] font-semibold transition-all duration-200 shadow-lg hover:shadow-xl">
+            <button className="bg-white text-[#7C3AED] hover:bg-gray-100 px-6 py-3 rounded text-[14px] font-semibold transition-all duration-200 shadow-lg hover:shadow-xl">
               SHOP NOW
             </button>
           </div>
         </div>
       </div>
 
-      {/* Desktop Hero Banner - Hidden on mobile */}
-      <div className="hidden md:block">
-        <HeroBannerCarousel
-          slides={desktopSlideElements}
-          autoPlay={true}
-          autoPlayDelay={6000}
-          className="bg-white"
-        />
+      {/* Desktop Hero Banner */}
+      <div className="hidden md:block h-[600px] bg-gradient-to-r from-[#7C3AED] to-[#2563EB]">
+        <div className="flex items-center justify-center h-full">
+          <div className="text-center text-white">
+            <h1 className="text-[48px] font-bold leading-tight mb-4">
+              Premium Garments Collection
+            </h1>
+            <p className="text-[18px] font-normal leading-relaxed mb-8">
+              Discover our range of T-Shirts, Leggings, Night Wear & More
+            </p>
+            <button className="bg-white text-[#7C3AED] hover:bg-gray-100 px-8 py-4 rounded text-[16px] font-semibold transition-all duration-200 shadow-lg hover:shadow-xl">
+              EXPLORE COLLECTION
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   );

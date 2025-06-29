@@ -191,6 +191,9 @@ export default function ProductDetail() {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Promo Banner */}
+      <PromoBanner />
+
       {/* Header */}
       <Header
         cartItemsCount={totalCartItems}

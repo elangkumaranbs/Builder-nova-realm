@@ -14,8 +14,8 @@ const iconSizes = {
 };
 
 const iconColors = {
-  primary: "fill-[#E91162]",
-  secondary: "fill-[#DD3327]",
+  primary: "fill-[#7C3AED]", // Attractive purple
+  secondary: "fill-[#2563EB]", // Attractive blue
   white: "fill-white",
   black: "fill-[#111111]",
 };

@@ -18,6 +18,20 @@ export default function Header({
   const totalCartCount = cartItemsCount || cartCount;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      // Navigate to search results page or filter products
+      console.log("Searching for:", searchQuery);
+      // For now, just alert the search term
+      alert(`Searching for: ${searchQuery}`);
+      setIsSearchOpen(false);
+      setSearchQuery("");
+    }
+  };
 
   const navigationItems = [
     {

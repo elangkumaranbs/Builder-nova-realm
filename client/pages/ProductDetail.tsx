@@ -130,8 +130,8 @@ export default function ProductDetail() {
   ];
 
   const handleAddToCart = () => {
-    const cartItem = {
-      productId: product.id,
+    const newCartItem: CartItem = {
+      id: `${product.id}-${selectedSize}`,
       name: product.name,
       price: product.price,
       size: selectedSize,
@@ -139,9 +139,35 @@ export default function ProductDetail() {
       image: product.images[0],
     };
 
-    // Add to cart logic
-    console.log("Adding to cart:", cartItem);
-    alert(`Added ${quantity} x ${product.name} (${selectedSize}) to cart!`);
+    // Check if item already exists in cart
+    const existingItemIndex = cartItems.findIndex(
+      (item) => item.id === newCartItem.id,
+    );
+
+    if (existingItemIndex >= 0) {
+      // Update quantity if item exists
+      const updatedItems = [...cartItems];
+      updatedItems[existingItemIndex].quantity += quantity;
+      setCartItems(updatedItems);
+    } else {
+      // Add new item to cart
+      setCartItems([...cartItems, newCartItem]);
+    }
+
+    // Open cart drawer
+    setIsCartOpen(true);
+  };
+
+  const handleUpdateQuantity = (id: string, newQuantity: number) => {
+    setCartItems(
+      cartItems.map((item) =>
+        item.id === id ? { ...item, quantity: newQuantity } : item,
+      ),
+    );
+  };
+
+  const handleRemoveItem = (id: string) => {
+    setCartItems(cartItems.filter((item) => item.id !== id));
   };
 
   const handleQuantityChange = (type: "increase" | "decrease") => {

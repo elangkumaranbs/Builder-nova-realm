@@ -126,9 +126,9 @@ export default function CartPage() {
                   <div className="w-full lg:w-[882px] pb-8">
                     <div className="flex flex-col gap-8">
                       {/* Cart Items Table */}
-                      <div className="border border-[#EBEBEB] rounded-sm">
-                        {/* Table Header */}
-                        <div className="flex h-[47.5px] bg-white border-b border-[#EBEBEB]">
+                      <div className="border border-[#EBEBEB] rounded-sm overflow-hidden">
+                        {/* Table Header - Hidden on mobile */}
+                        <div className="hidden md:flex h-[47.5px] bg-white border-b border-[#EBEBEB]">
                           <div className="flex-1 px-[21px] py-[14px] border-r border-[#EBEBEB]">
                             <span className="text-black font-['Inter'] text-[13px] font-medium leading-[21px]">
                               Product

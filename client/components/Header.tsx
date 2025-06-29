@@ -3,14 +3,64 @@ import { useState } from "react";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   const navigationItems = [
-    { name: "Men's", hasDropdown: true },
-    { name: "Women's", hasDropdown: true, isNew: true },
-    { name: "Leggings", hasDropdown: true },
-    { name: "Saree Shapewear", hasDropdown: true },
-    { name: "Night Wear", hasDropdown: true },
-    { name: "Innerwear", hasDropdown: true },
+    {
+      name: "Men's",
+      hasDropdown: true,
+      items: [
+        "Round Neck T-Shirts",
+        "V-Neck T-Shirts",
+        "Polo T-Shirts",
+        "Long Sleeve T-Shirts",
+        "Track Pants",
+        "Shorts",
+      ],
+    },
+    {
+      name: "Women's",
+      hasDropdown: true,
+      isNew: true,
+      items: [
+        "Full Length Leggings",
+        "Ankle Leggings",
+        "Churidhar Leggings",
+        "Night Wear",
+        "Saree Shapewear",
+      ],
+    },
+    {
+      name: "Leggings",
+      hasDropdown: true,
+      items: [
+        "Flat Ankle Leggings",
+        "Flat Full-Length",
+        "Churidhar Ankle",
+        "Churidhar Full-Length",
+        "Shimmer Leggings",
+        "Striped Leggings",
+      ],
+    },
+    {
+      name: "Saree Shapewear",
+      hasDropdown: true,
+      items: [
+        "Lycra Cotton Shapewear",
+        "Polyester Shapewear",
+        "Shimmer Shapewear",
+      ],
+    },
+    {
+      name: "Night Wear",
+      hasDropdown: true,
+      items: ["Night T-Shirts", "3/4 Leggings", "Shorts"],
+    },
+    {
+      name: "Innerwear",
+      hasDropdown: true,
+      items: ["Basic Slips", "Adjustment Slips", "Panties"],
+    },
     { name: "Sale", hasDropdown: false },
   ];
 

@@ -14,10 +14,25 @@ export default function LoginPage({ isModal = false, onClose }: LoginPageProps) 
     rememberMe: false,
   });
 
+  const [registerData, setRegisterData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    agreeToTerms: false,
+    subscribeNewsletter: false,
+  });
+
   const [isLoading, setIsLoading] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleRegisterInputChange = (field: string, value: string | boolean) => {
+    setRegisterData(prev => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -33,7 +48,29 @@ export default function LoginPage({ isModal = false, onClose }: LoginPageProps) 
     }, 1000);
   };
 
-  const content = (
+  const handleRegisterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    
+    // Simulate registration process
+    setTimeout(() => {
+      setIsLoading(false);
+      console.log("Registration attempt:", registerData);
+      // Handle successful registration here
+      setShowRegister(false); // Go back to login after successful registration
+    }, 1000);
+  };
+
+  const switchToRegister = () => {
+    setShowRegister(true);
+  };
+
+  const switchToLogin = () => {
+    setShowRegister(false);
+  };
+
+  // Login Form Content
+  const loginContent = (
     <div className="w-full max-w-md mx-auto bg-white rounded-lg shadow-lg">
       {/* Header */}
       <div className="flex items-center justify-between p-6 border-b border-gray-100">
@@ -106,18 +143,178 @@ export default function LoginPage({ isModal = false, onClose }: LoginPageProps) 
           <div className="text-center pt-4 border-t border-gray-100">
             <p className="text-sm text-gray-600">
               Don't have an account?{" "}
-              <Link
-                to="/register"
-                className="text-[#7C3AED] hover:text-[#6D28D9] font-medium transition-colors"
+              <button
+                type="button"
+                onClick={switchToRegister}
+                className="text-[#7C3AED] hover:text-[#6D28D9] font-medium transition-colors underline"
               >
                 CREATE ACCOUNT
-              </Link>
+              </button>
             </p>
           </div>
         </form>
       </div>
     </div>
   );
+
+  // Register Form Content
+  const registerContent = (
+    <div className="w-full max-w-md mx-auto bg-white rounded-lg shadow-lg">
+      {/* Header */}
+      <div className="flex items-center justify-between p-6 border-b border-gray-100">
+        <h2 className="text-2xl font-semibold text-gray-900">Create Account</h2>
+        {isModal && onClose && (
+          <button
+            onClick={onClose}
+            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+          >
+            <X className="w-5 h-5 text-gray-500" />
+          </button>
+        )}
+      </div>
+
+      {/* Form */}
+      <div className="p-6">
+        <form onSubmit={handleRegisterSubmit} className="space-y-4">
+          {/* Name Fields */}
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
+                First Name*
+              </label>
+              <input
+                type="text"
+                id="firstName"
+                value={registerData.firstName}
+                onChange={(e) => handleRegisterInputChange("firstName", e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-colors"
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
+                Last Name*
+              </label>
+              <input
+                type="text"
+                id="lastName"
+                value={registerData.lastName}
+                onChange={(e) => handleRegisterInputChange("lastName", e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-colors"
+                required
+              />
+            </div>
+          </div>
+
+          {/* Email Field */}
+          <div>
+            <label htmlFor="registerEmail" className="block text-sm font-medium text-gray-700 mb-1">
+              Email*
+            </label>
+            <input
+              type="email"
+              id="registerEmail"
+              value={registerData.email}
+              onChange={(e) => handleRegisterInputChange("email", e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-colors"
+              required
+            />
+          </div>
+
+          {/* Password Fields */}
+          <div>
+            <label htmlFor="registerPassword" className="block text-sm font-medium text-gray-700 mb-1">
+              Password*
+            </label>
+            <input
+              type="password"
+              id="registerPassword"
+              value={registerData.password}
+              onChange={(e) => handleRegisterInputChange("password", e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-colors"
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+              Confirm Password*
+            </label>
+            <input
+              type="password"
+              id="confirmPassword"
+              value={registerData.confirmPassword}
+              onChange={(e) => handleRegisterInputChange("confirmPassword", e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-colors"
+              required
+            />
+          </div>
+
+          {/* Checkboxes */}
+          <div className="space-y-3">
+            <div className="flex items-start space-x-3">
+              <input
+                type="checkbox"
+                id="agreeToTerms"
+                checked={registerData.agreeToTerms}
+                onChange={(e) => handleRegisterInputChange("agreeToTerms", e.target.checked)}
+                className="w-4 h-4 text-[#7C3AED] border-gray-300 rounded focus:ring-[#7C3AED] focus:ring-2 mt-1"
+                required
+              />
+              <label htmlFor="agreeToTerms" className="text-sm text-gray-700">
+                I agree to the{" "}
+                <Link to="/terms" className="text-[#7C3AED] hover:underline">
+                  Terms & Conditions
+                </Link>{" "}
+                and{" "}
+                <Link to="/privacy" className="text-[#7C3AED] hover:underline">
+                  Privacy Policy
+                </Link>
+              </label>
+            </div>
+
+            <div className="flex items-center space-x-3">
+              <input
+                type="checkbox"
+                id="subscribeNewsletter"
+                checked={registerData.subscribeNewsletter}
+                onChange={(e) => handleRegisterInputChange("subscribeNewsletter", e.target.checked)}
+                className="w-4 h-4 text-[#7C3AED] border-gray-300 rounded focus:ring-[#7C3AED] focus:ring-2"
+              />
+              <label htmlFor="subscribeNewsletter" className="text-sm text-gray-700">
+                Subscribe to our newsletter for updates and offers
+              </label>
+            </div>
+          </div>
+
+          {/* Create Account Button */}
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full bg-black text-white py-3 px-6 rounded-full font-semibold text-sm uppercase tracking-wide hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isLoading ? "CREATING ACCOUNT..." : "CREATE ACCOUNT"}
+          </button>
+
+          {/* Login Link */}
+          <div className="text-center pt-4 border-t border-gray-100">
+            <p className="text-sm text-gray-600">
+              Already have an account?{" "}
+              <button
+                type="button"
+                onClick={switchToLogin}
+                className="text-[#7C3AED] hover:text-[#6D28D9] font-medium transition-colors underline"
+              >
+                LOGIN
+              </button>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+
+  const content = showRegister ? registerContent : loginContent;
 
   if (isModal) {
     return (

@@ -347,7 +347,7 @@ export default function CartPage() {
 
                   {/* Cart Summary Sidebar */}
                   <div className="w-full lg:w-[378px]">
-                    <div className="bg-[#F5F5F5] rounded-md p-8 max-w-[370px]">
+                    <div className="bg-[#F5F5F5] rounded-md p-4 md:p-8 w-full lg:max-w-[370px]">
                       {/* Free shipping progress */}
                       <div className="mb-8 pb-6 border-b border-[#DEDEDE]">
                         <div className="relative mb-3">

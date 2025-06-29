@@ -61,7 +61,8 @@ export default function BestSelling({
       id: 1,
       name: "Women's Full Length Leggings",
       price: "Rs. 599.00",
-      image: "",
+      image:
+        "https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?w=400&h=600&fit=crop",
       rating: 5,
       sizes: ["S", "M", "L", "XL", "XXL", "3XL", "4XL", "5XL"],
       category: "Women's Leggings",
@@ -71,7 +72,8 @@ export default function BestSelling({
       id: 2,
       name: "Men's Round Neck T-Shirt",
       price: "Rs. 399.00",
-      image: "",
+      image:
+        "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=600&fit=crop",
       rating: 4,
       sizes: ["S", "M", "L", "XL", "XXL"],
       category: "Men's T-Shirts",
@@ -86,7 +88,8 @@ export default function BestSelling({
       id: 3,
       name: "Shimmer Leggings",
       price: "Rs. 799.00",
-      image: "",
+      image:
+        "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=600&fit=crop",
       rating: 5,
       sizes: ["S", "M", "L", "XL", "XXL"],
       category: "Women's Leggings",
@@ -101,7 +104,8 @@ export default function BestSelling({
       id: 4,
       name: "Churidhar Ankle Leggings",
       price: "Rs. 449.00",
-      image: "",
+      image:
+        "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400&h=600&fit=crop",
       rating: 4,
       sizes: ["S", "M", "L", "XL", "XXL"],
       category: "Women's Leggings",
@@ -111,7 +115,8 @@ export default function BestSelling({
       id: 5,
       name: "Night Wear T-Shirt",
       price: "Rs. 299.00",
-      image: "",
+      image:
+        "https://images.unsplash.com/photo-1571945153237-4929e783af4a?w=400&h=600&fit=crop",
       rating: 4,
       sizes: ["S", "M", "L", "XL", "XXL"],
       category: "Night Wear",
@@ -126,7 +131,8 @@ export default function BestSelling({
       id: 6,
       name: "Men's Track Pants",
       price: "Rs. 699.00",
-      image: "",
+      image:
+        "https://images.unsplash.com/photo-1506629905962-d997d54d4702?w=400&h=600&fit=crop",
       rating: 4,
       sizes: ["M", "L", "XL", "XXL"],
       category: "Men's Bottomwear",
@@ -141,7 +147,8 @@ export default function BestSelling({
       id: 7,
       name: "Flat Ankle Leggings",
       price: "Rs. 399.00",
-      image: "",
+      image:
+        "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=600&fit=crop",
       rating: 5,
       sizes: ["S", "M", "L", "XL", "XXL"],
       category: "Women's Leggings",
@@ -151,7 +158,8 @@ export default function BestSelling({
       id: 8,
       name: "Saree Shapewear",
       price: "Rs. 599.00",
-      image: "",
+      image:
+        "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=400&h=600&fit=crop",
       rating: 4,
       sizes: ["S", "M", "L", "XL", "XXL"],
       category: "Saree Shapewear",

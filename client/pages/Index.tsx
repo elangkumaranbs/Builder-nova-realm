@@ -143,7 +143,10 @@ export default function Index() {
       />
       <HeroBanner />
       <CategoryShowcase />
-      <BestSelling />
+      <BestSelling
+        onAddToCart={handleAddToCart}
+        onQuickView={handleQuickView}
+      />
       <InstagramFeed />
       <FeaturedArticle />
       <Footer />

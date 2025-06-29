@@ -181,7 +181,10 @@ export default function Header({
 
           {/* Right side icons */}
           <div className="flex items-center space-x-3 md:space-x-5">
-            <button className="p-1 hover:text-[#7C3AED] transition-colors">
+            <button
+              onClick={() => setIsSearchOpen(true)}
+              className="p-1 hover:text-[#7C3AED] transition-colors"
+            >
               <Search className="w-5 h-5 md:w-[17px] md:h-[17px]" />
             </button>
             <Link

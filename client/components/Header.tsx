@@ -11,8 +11,11 @@ interface HeaderProps {
 
 export default function Header({
   cartItemsCount = 0,
+  cartCount = 0,
   onCartClick,
+  onCartToggle,
 }: HeaderProps) {
+  const totalCartCount = cartItemsCount || cartCount;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 

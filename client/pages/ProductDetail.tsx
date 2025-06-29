@@ -29,12 +29,23 @@ interface RelatedProduct {
   colors: string[];
 }
 
+interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  size: string;
+  image: string;
+}
+
 export default function ProductDetail() {
   const [selectedSize, setSelectedSize] = useState("S/M");
   const [quantity, setQuantity] = useState(1);
   const [expandedSection, setExpandedSection] = useState<string | null>(
     "product-description",
   );
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   // Sample product data based on Figma design
   const product: Product = {

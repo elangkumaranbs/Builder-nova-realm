@@ -300,11 +300,11 @@ export default function CartPage() {
                         <h2 className="text-black font-['Jost'] text-[20px] font-medium leading-[26px] mb-4">
                           You may also like
                         </h2>
-                        <div className="flex gap-5 overflow-x-auto pb-4">
+                        <div className="flex gap-5 overflow-x-auto pb-4 scrollbar-hide">
                           {recommendedProducts.map((product) => (
                             <div
                               key={product.id}
-                              className="flex-shrink-0 w-[431px] border border-[#EBEBEB] rounded-[10px] p-3"
+                              className="flex-shrink-0 w-[300px] md:w-[431px] border border-[#EBEBEB] rounded-[10px] p-3"
                             >
                               <div className="flex gap-4">
                                 <div className="w-[85px] h-[113px] rounded-md overflow-hidden">

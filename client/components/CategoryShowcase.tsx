@@ -45,9 +45,12 @@ export default function CategoryShowcase() {
                 {/* Overlay Content */}
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center px-16 py-8">
-                    <h3 className="text-[#111] font-normal text-[28px] md:text-[32px] leading-[41.6px] mb-8">
+                    <h3 className="text-[#111] font-bold text-[28px] md:text-[32px] leading-[41.6px] mb-2">
                       {category.title}
                     </h3>
+                    <p className="text-[#666] font-normal text-[16px] md:text-[18px] mb-6">
+                      {category.subtitle}
+                    </p>
                     <ShopNowButton
                       text="Shop Now"
                       onClick={() => console.log(`Shop ${category.title}`)}

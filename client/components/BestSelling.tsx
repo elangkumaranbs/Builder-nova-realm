@@ -165,22 +165,22 @@ export default function BestSelling({
   ];
 
   const handleQuickView = (productId: number) => {
-    console.log("Quick view product:", productId);
-    // Implement quick view modal logic here
+    if (onQuickView) {
+      onQuickView(productId);
+    } else {
+      console.log("Quick view product:", productId);
+    }
   };
 
   const handleAddToCart = (productId: number) => {
-    console.log("Add to cart product:", productId);
-    // Add enhanced add to cart functionality
-    const product = products.find((p) => p.id === productId);
-    if (product) {
-      // Show success message or animation
-      alert(`${product.name} added to cart!`);
-      // Here you would typically:
-      // 1. Add to cart state/context
-      // 2. Update cart count
-      // 3. Show toast notification
-      // 4. Send to backend API
+    if (onAddToCart) {
+      onAddToCart(productId);
+    } else {
+      console.log("Add to cart product:", productId);
+      const product = products.find((p) => p.id === productId);
+      if (product) {
+        alert(`${product.name} added to cart!`);
+      }
     }
   };
 

@@ -15,7 +15,9 @@ import {
   Users,
   ShoppingCart,
   TrendingUp,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Link as LinkIcon,
+  Loader2
 } from "lucide-react";
 
 interface Product {
@@ -553,7 +555,7 @@ export default function AdminDashboard() {
   );
 }
 
-// Enhanced Product Modal Component with Image Upload
+// Enhanced Product Modal Component with File Upload and URL Support
 interface ProductModalProps {
   product: Product | null;
   categories: Category[];
@@ -579,6 +581,8 @@ function ProductModal({ product, categories, onSave, onClose }: ProductModalProp
     product?.images?.map(img => img.image_url) || []
   );
   const [newImageUrl, setNewImageUrl] = useState('');
+  const [uploadMethod, setUploadMethod] = useState<'url' | 'file'>('url');
+  const [uploading, setUploading] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -598,7 +602,87 @@ function ProductModal({ product, categories, onSave, onClose }: ProductModalProp
     }
   };
 
-  const removeImage = (index: number) => {
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+
+    setUploading(true);
+    const uploadedUrls: string[] = [];
+
+    try {
+      for (const file of Array.from(files)) {
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+          alert(`${file.name} is not an image file`);
+          continue;
+        }
+
+        // Validate file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+          alert(`${file.name} is too large. Maximum size is 5MB`);
+          continue;
+        }
+
+        // Generate unique filename
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+        const filePath = `product-images/${fileName}`;
+
+        // Upload to Supabase Storage
+        const { data, error } = await supabase.storage
+          .from('product-images')
+          .upload(filePath, file, {
+            cacheControl: '3600',
+            upsert: false
+          });
+
+        if (error) {
+          console.error('Upload error:', error);
+          alert(`Failed to upload ${file.name}: ${error.message}`);
+          continue;
+        }
+
+        // Get public URL
+        const { data: { publicUrl } } = supabase.storage
+          .from('product-images')
+          .getPublicUrl(filePath);
+
+        uploadedUrls.push(publicUrl);
+      }
+
+      // Add uploaded URLs to the list
+      if (uploadedUrls.length > 0) {
+        setImageUrls(prev => [...prev, ...uploadedUrls]);
+      }
+
+    } catch (error) {
+      console.error('Upload error:', error);
+      alert('Failed to upload images. Please try again.');
+    } finally {
+      setUploading(false);
+      // Reset file input
+      event.target.value = '';
+    }
+  };
+
+  const removeImage = async (index: number) => {
+    const imageUrl = imageUrls[index];
+    
+    // If it's a Supabase storage URL, delete from storage
+    if (imageUrl.includes('supabase') && imageUrl.includes('product-images')) {
+      try {
+        const urlParts = imageUrl.split('/');
+        const fileName = urlParts[urlParts.length - 1];
+        const filePath = `product-images/${fileName}`;
+        
+        await supabase.storage
+          .from('product-images')
+          .remove([filePath]);
+      } catch (error) {
+        console.error('Error deleting image from storage:', error);
+      }
+    }
+    
     setImageUrls(imageUrls.filter((_, i) => i !== index));
   };
 
@@ -614,7 +698,7 @@ function ProductModal({ product, categories, onSave, onClose }: ProductModalProp
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white rounded-lg max-w-5xl w-full max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center p-6 border-b">
           <h2 className="text-xl font-bold">
             {product ? 'Edit Product' : 'Add New Product'}
@@ -625,7 +709,7 @@ function ProductModal({ product, categories, onSave, onClose }: ProductModalProp
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Left Column - Product Details */}
             <div className="space-y-4">
               <div>
@@ -753,32 +837,101 @@ function ProductModal({ product, categories, onSave, onClose }: ProductModalProp
             {/* Right Column - Product Images */}
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-3">
                   Product Images
                 </label>
                 
-                {/* Add Image URL */}
-                <div className="flex gap-2 mb-4">
-                  <input
-                    type="url"
-                    value={newImageUrl}
-                    onChange={(e) => setNewImageUrl(e.target.value)}
-                    placeholder="Enter image URL"
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED]"
-                  />
+                {/* Upload Method Toggle */}
+                <div className="flex bg-gray-100 rounded-lg p-1 mb-4">
                   <button
                     type="button"
-                    onClick={addImageUrl}
-                    className="px-4 py-2 bg-[#7C3AED] text-white rounded-lg hover:bg-[#6D28D9] transition-colors"
+                    onClick={() => setUploadMethod('url')}
+                    className={`flex-1 flex items-center justify-center py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+                      uploadMethod === 'url'
+                        ? 'bg-white text-[#7C3AED] shadow-sm'
+                        : 'text-gray-600 hover:text-gray-900'
+                    }`}
                   >
-                    <Plus className="w-4 h-4" />
+                    <LinkIcon className="w-4 h-4 mr-2" />
+                    Add URL
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setUploadMethod('file')}
+                    className={`flex-1 flex items-center justify-center py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+                      uploadMethod === 'file'
+                        ? 'bg-white text-[#7C3AED] shadow-sm'
+                        : 'text-gray-600 hover:text-gray-900'
+                    }`}
+                  >
+                    <Upload className="w-4 h-4 mr-2" />
+                    Upload Files
                   </button>
                 </div>
 
+                {/* URL Input Method */}
+                {uploadMethod === 'url' && (
+                  <div className="flex gap-2 mb-4">
+                    <input
+                      type="url"
+                      value={newImageUrl}
+                      onChange={(e) => setNewImageUrl(e.target.value)}
+                      placeholder="Enter image URL"
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED]"
+                    />
+                    <button
+                      type="button"
+                      onClick={addImageUrl}
+                      disabled={!newImageUrl.trim()}
+                      className="px-4 py-2 bg-[#7C3AED] text-white rounded-lg hover:bg-[#6D28D9] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </button>
+                  </div>
+                )}
+
+                {/* File Upload Method */}
+                {uploadMethod === 'file' && (
+                  <div className="mb-4">
+                    <div className="relative">
+                      <input
+                        type="file"
+                        multiple
+                        accept="image/*"
+                        onChange={handleFileUpload}
+                        disabled={uploading}
+                        className="hidden"
+                        id="file-upload"
+                      />
+                      <label
+                        htmlFor="file-upload"
+                        className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors ${
+                          uploading ? 'opacity-50 cursor-not-allowed' : ''
+                        }`}
+                      >
+                        {uploading ? (
+                          <div className="flex flex-col items-center">
+                            <Loader2 className="w-8 h-8 text-[#7C3AED] animate-spin mb-2" />
+                            <p className="text-sm text-gray-600">Uploading images...</p>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center">
+                            <Upload className="w-8 h-8 text-gray-400 mb-2" />
+                            <p className="text-sm text-gray-600">
+                              <span className="font-medium text-[#7C3AED]">Click to upload</span> or drag and drop
+                            </p>
+                            <p className="text-xs text-gray-500">PNG, JPG, GIF up to 5MB each</p>
+                          </div>
+                        )}
+                      </label>
+                    </div>
+                  </div>
+                )}
+
                 {/* Image List */}
-                <div className="space-y-2 max-h-64 overflow-y-auto">
+                <div className="space-y-3 max-h-80 overflow-y-auto">
                   {imageUrls.map((url, index) => (
-                    <div key={index} className="flex items-center gap-3 p-3 border border-gray-200 rounded-lg">
+                    <div key={index} className="flex items-center gap-3 p-3 border border-gray-200 rounded-lg bg-gray-50">
                       <img
                         src={url}
                         alt={`Product image ${index + 1}`}
@@ -788,11 +941,11 @@ function ProductModal({ product, categories, onSave, onClose }: ProductModalProp
                           target.src = 'https://via.placeholder.com/64?text=Error';
                         }}
                       />
-                      <div className="flex-1">
+                      <div className="flex-1 min-w-0">
                         <p className="text-sm text-gray-600 truncate">{url}</p>
                         {index === 0 && (
-                          <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                            Primary
+                          <span className="inline-block mt-1 text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                            Primary Image
                           </span>
                         )}
                       </div>
@@ -801,7 +954,8 @@ function ProductModal({ product, categories, onSave, onClose }: ProductModalProp
                           type="button"
                           onClick={() => moveImage(index, 'up')}
                           disabled={index === 0}
-                          className="p-1 text-gray-400 hover:text-gray-600 disabled:opacity-50"
+                          className="p-1 text-gray-400 hover:text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                          title="Move up"
                         >
                           ↑
                         </button>
@@ -809,7 +963,8 @@ function ProductModal({ product, categories, onSave, onClose }: ProductModalProp
                           type="button"
                           onClick={() => moveImage(index, 'down')}
                           disabled={index === imageUrls.length - 1}
-                          className="p-1 text-gray-400 hover:text-gray-600 disabled:opacity-50"
+                          className="p-1 text-gray-400 hover:text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                          title="Move down"
                         >
                           ↓
                         </button>
@@ -817,6 +972,7 @@ function ProductModal({ product, categories, onSave, onClose }: ProductModalProp
                           type="button"
                           onClick={() => removeImage(index)}
                           className="p-1 text-red-400 hover:text-red-600"
+                          title="Remove image"
                         >
                           <X className="w-4 h-4" />
                         </button>
@@ -829,26 +985,30 @@ function ProductModal({ product, categories, onSave, onClose }: ProductModalProp
                   <div className="text-center py-8 border-2 border-dashed border-gray-300 rounded-lg">
                     <ImageIcon className="w-12 h-12 text-gray-400 mx-auto mb-2" />
                     <p className="text-gray-500">No images added yet</p>
+                    <p className="text-sm text-gray-400 mt-1">
+                      Add images using URLs or upload files from your device
+                    </p>
                   </div>
                 )}
               </div>
             </div>
           </div>
 
-          <div className="flex justify-end space-x-4 pt-4 border-t">
+          <div className="flex justify-end space-x-4 pt-6 border-t">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50"
+              className="px-6 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-[#7C3AED] text-white rounded-lg hover:bg-[#6D28D9] flex items-center"
+              disabled={uploading}
+              className="px-6 py-2 bg-[#7C3AED] text-white rounded-lg hover:bg-[#6D28D9] transition-colors flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Save className="w-4 h-4 mr-2" />
-              Save Product
+              {uploading ? 'Uploading...' : 'Save Product'}
             </button>
           </div>
         </form>

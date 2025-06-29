@@ -54,7 +54,7 @@ export default function HeroBanner() {
               <br />
               Leggings
             </h1>
-            <button className="bg-[#1e4d72] hover:bg-[#1a3f5e] text-white px-6 py-3 rounded text-[14px] font-semibold transition-colors duration-200">
+            <button className="bg-gradient-to-r from-[#7C3AED] to-[#2563EB] hover:from-[#6D28D9] hover:to-[#1D4ED8] text-white px-6 py-3 rounded text-[14px] font-semibold transition-all duration-200 shadow-lg hover:shadow-xl">
               SHOP NOW
             </button>
           </div>

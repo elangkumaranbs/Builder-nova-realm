@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { X } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 interface LoginPageProps {
   isModal?: boolean;
@@ -8,6 +9,8 @@ interface LoginPageProps {
 }
 
 export default function LoginPage({ isModal = false, onClose }: LoginPageProps) {
+  const { signIn, signUp, loading } = useAuth();
+  
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -24,49 +27,95 @@ export default function LoginPage({ isModal = false, onClose }: LoginPageProps) 
     subscribeNewsletter: false,
   });
 
-  const [isLoading, setIsLoading] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+    setError(null); // Clear error when user types
   };
 
   const handleRegisterInputChange = (field: string, value: string | boolean) => {
     setRegisterData(prev => ({ ...prev, [field]: value }));
+    setError(null); // Clear error when user types
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    setError(null);
     
-    // Simulate login process
-    setTimeout(() => {
-      setIsLoading(false);
-      console.log("Login attempt:", formData);
-      // Handle successful login here
-      if (onClose) onClose();
-    }, 1000);
+    try {
+      const { error } = await signIn(formData.email, formData.password);
+      
+      if (error) {
+        setError(error.message);
+      } else {
+        setSuccess("Login successful!");
+        setTimeout(() => {
+          if (onClose) onClose();
+        }, 1000);
+      }
+    } catch (err) {
+      setError("An unexpected error occurred. Please try again.");
+    }
   };
 
   const handleRegisterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    setError(null);
     
-    // Simulate registration process
-    setTimeout(() => {
-      setIsLoading(false);
-      console.log("Registration attempt:", registerData);
-      // Handle successful registration here
-      setShowRegister(false); // Go back to login after successful registration
-    }, 1000);
+    // Validation
+    if (registerData.password !== registerData.confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+    
+    if (registerData.password.length < 6) {
+      setError("Password must be at least 6 characters long");
+      return;
+    }
+    
+    if (!registerData.agreeToTerms) {
+      setError("Please agree to the Terms & Conditions");
+      return;
+    }
+    
+    try {
+      const { error } = await signUp(
+        registerData.email, 
+        registerData.password,
+        {
+          first_name: registerData.firstName,
+          last_name: registerData.lastName
+        }
+      );
+      
+      if (error) {
+        setError(error.message);
+      } else {
+        setSuccess("Account created successfully! Please check your email to verify your account.");
+        // Switch back to login after successful registration
+        setTimeout(() => {
+          setShowRegister(false);
+          setSuccess(null);
+        }, 3000);
+      }
+    } catch (err) {
+      setError("An unexpected error occurred. Please try again.");
+    }
   };
 
   const switchToRegister = () => {
     setShowRegister(true);
+    setError(null);
+    setSuccess(null);
   };
 
   const switchToLogin = () => {
     setShowRegister(false);
+    setError(null);
+    setSuccess(null);
   };
 
   // Login Form Content
@@ -87,6 +136,20 @@ export default function LoginPage({ isModal = false, onClose }: LoginPageProps) 
 
       {/* Form */}
       <div className="p-6">
+        {/* Error Message */}
+        {error && (
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+            <p className="text-red-600 text-sm">{error}</p>
+          </div>
+        )}
+
+        {/* Success Message */}
+        {success && (
+          <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+            <p className="text-green-600 text-sm">{success}</p>
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Email Field */}
           <div>
@@ -133,10 +196,10 @@ export default function LoginPage({ isModal = false, onClose }: LoginPageProps) 
           {/* Login Button */}
           <button
             type="submit"
-            disabled={isLoading}
+            disabled={loading}
             className="w-full bg-black text-white py-3 px-6 rounded-full font-semibold text-sm uppercase tracking-wide hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoading ? "LOGGING IN..." : "LOGIN"}
+            {loading ? "LOGGING IN..." : "LOGIN"}
           </button>
 
           {/* Create Account Link */}
@@ -175,6 +238,20 @@ export default function LoginPage({ isModal = false, onClose }: LoginPageProps) 
 
       {/* Form */}
       <div className="p-6">
+        {/* Error Message */}
+        {error && (
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+            <p className="text-red-600 text-sm">{error}</p>
+          </div>
+        )}
+
+        {/* Success Message */}
+        {success && (
+          <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+            <p className="text-green-600 text-sm">{success}</p>
+          </div>
+        )}
+
         <form onSubmit={handleRegisterSubmit} className="space-y-4">
           {/* Name Fields */}
           <div className="grid grid-cols-2 gap-4">
@@ -232,8 +309,10 @@ export default function LoginPage({ isModal = false, onClose }: LoginPageProps) 
               value={registerData.password}
               onChange={(e) => handleRegisterInputChange("password", e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:border-transparent transition-colors"
+              minLength={6}
               required
             />
+            <p className="text-xs text-gray-500 mt-1">Password must be at least 6 characters long</p>
           </div>
 
           <div>
@@ -290,10 +369,10 @@ export default function LoginPage({ isModal = false, onClose }: LoginPageProps) 
           {/* Create Account Button */}
           <button
             type="submit"
-            disabled={isLoading}
+            disabled={loading}
             className="w-full bg-black text-white py-3 px-6 rounded-full font-semibold text-sm uppercase tracking-wide hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoading ? "CREATING ACCOUNT..." : "CREATE ACCOUNT"}
+            {loading ? "CREATING ACCOUNT..." : "CREATE ACCOUNT"}
           </button>
 
           {/* Login Link */}

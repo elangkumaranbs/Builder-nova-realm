@@ -1,6 +1,7 @@
 import { Search, User, ShoppingCart, Menu, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 import LoginPage from "../pages/LoginPage";
 
 interface HeaderProps {
@@ -16,12 +17,14 @@ export default function Header({
   onCartClick,
   onCartToggle,
 }: HeaderProps) {
+  const { user, signOut, loading } = useAuth();
   const totalCartCount = cartItemsCount || cartCount;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [showUserDropdown, setShowUserDropdown] = useState(false);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,6 +33,15 @@ export default function Header({
       alert(`Searching for: ${searchQuery}`);
       setIsSearchOpen(false);
       setSearchQuery("");
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      setShowUserDropdown(false);
+    } catch (error) {
+      console.error("Error signing out:", error);
     }
   };
 
@@ -168,12 +180,68 @@ export default function Header({
               >
                 <Search className="w-[17px] h-[17px]" />
               </button>
-              <button 
-                onClick={() => setIsLoginModalOpen(true)}
-                className="p-[5px] hover:text-[#7C3AED] transition-colors"
-              >
-                <User className="w-[17px] h-[17px]" />
-              </button>
+              
+              {/* User Account Button */}
+              <div className="relative">
+                {user ? (
+                  <div className="relative">
+                    <button 
+                      onClick={() => setShowUserDropdown(!showUserDropdown)}
+                      className="p-[5px] hover:text-[#7C3AED] transition-colors flex items-center space-x-2"
+                    >
+                      <User className="w-[17px] h-[17px]" />
+                      <span className="hidden md:block text-sm text-gray-700">
+                        {user.user_metadata?.first_name || user.email?.split('@')[0]}
+                      </span>
+                      <ChevronDown className="w-3 h-3 text-gray-500" />
+                    </button>
+                    
+                    {/* User Dropdown */}
+                    {showUserDropdown && (
+                      <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50 py-2">
+                        <div className="px-4 py-2 border-b border-gray-100">
+                          <p className="text-sm font-medium text-gray-900">
+                            {user.user_metadata?.first_name && user.user_metadata?.last_name 
+                              ? `${user.user_metadata.first_name} ${user.user_metadata.last_name}`
+                              : user.email
+                            }
+                          </p>
+                          <p className="text-xs text-gray-500">{user.email}</p>
+                        </div>
+                        <Link
+                          to="/profile"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                          onClick={() => setShowUserDropdown(false)}
+                        >
+                          My Profile
+                        </Link>
+                        <Link
+                          to="/orders"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                          onClick={() => setShowUserDropdown(false)}
+                        >
+                          My Orders
+                        </Link>
+                        <button
+                          onClick={handleSignOut}
+                          disabled={loading}
+                          className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
+                        >
+                          {loading ? "Signing out..." : "Sign Out"}
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <button 
+                    onClick={() => setIsLoginModalOpen(true)}
+                    className="p-[5px] hover:text-[#7C3AED] transition-colors"
+                  >
+                    <User className="w-[17px] h-[17px]" />
+                  </button>
+                )}
+              </div>
+              
               <div className="pl-[10px]">
                 <Link
                   to="/cart"

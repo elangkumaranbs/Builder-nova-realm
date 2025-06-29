@@ -74,9 +74,9 @@ export default function Header({
   ];
 
   return (
-    <header className="bg-white w-full">
-      <div className="max-w-[1320px] mx-auto px-4 md:px-8 py-3">
-        <div className="flex items-center justify-between">
+    <header className="bg-white w-full border-b border-gray-100">
+      <div className="max-w-[1320px] mx-auto px-[30px] py-3">
+        <div className="flex items-center">
           {/* Mobile Hamburger Menu */}
           <div className="md:hidden">
             <button
@@ -87,20 +87,20 @@ export default function Header({
             </button>
           </div>
 
-          {/* Logo - Center on mobile, left on desktop */}
-          <div className="flex-1 md:flex-none flex justify-center md:justify-start">
+          {/* Logo */}
+          <div className="flex-1 md:flex-none">
             <Link to="/" className="flex items-center">
               <img
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/f8ef9c4dde67d4cf930390e0018cb8f6984fd4f2?width=593"
                 alt="Indian Flower"
-                className="h-8 md:h-12 w-auto max-w-[200px] md:max-w-[296px]"
+                className="h-auto w-[296px] max-w-[296px]"
               />
             </Link>
           </div>
 
-          {/* Desktop Navigation - Hidden on mobile */}
+          {/* Desktop Navigation - Center */}
           <nav className="hidden md:flex items-center flex-1 justify-center">
-            <ul className="flex items-center space-x-0">
+            <ul className="flex items-center">
               {navigationItems.map((item, index) => (
                 <li
                   key={index}
@@ -112,32 +112,22 @@ export default function Header({
                 >
                   <a
                     href="#"
-                    className="flex items-center px-4 py-2.5 text-[#111] font-medium text-[15px] leading-[26.25px] hover:text-[#7C3AED] transition-colors"
+                    className="flex items-center px-[15px] py-[9.5px] text-[#111] font-medium text-[15px] leading-[26.25px] hover:text-[#7C3AED] transition-colors font-jost"
                   >
                     <span className="relative">
                       {item.name}
                       {item.isNew && (
-                        <span className="absolute -top-3 -right-8 bg-[#516CF4] text-white text-[9px] font-semibold px-2 py-1 rounded-sm uppercase">
+                        <span className="absolute -top-[3px] left-[calc(100%+6px)] bg-[#516CF4] text-white text-[9px] font-semibold px-[6px] py-[3px] rounded-[2px] uppercase leading-[9px]">
                           New
                         </span>
                       )}
                     </span>
                     {item.hasDropdown && (
-                      <svg
-                        className={`ml-1 w-3.5 h-3.5 opacity-50 transition-transform duration-200 ${
+                      <ChevronDown
+                        className={`ml-[6px] w-[14px] h-[14px] opacity-50 transition-transform duration-200 ${
                           activeDropdown === item.name ? "rotate-180" : ""
                         }`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
+                      />
                     )}
                   </a>
 
@@ -163,25 +153,32 @@ export default function Header({
           </nav>
 
           {/* Right side icons */}
-          <div className="flex items-center space-x-3 md:space-x-5">
-            <button
-              onClick={() => setIsSearchOpen(true)}
-              className="p-1 hover:text-[#7C3AED] transition-colors"
-            >
-              <Search className="w-5 h-5 md:w-[17px] md:h-[17px]" />
-            </button>
-            <Link
-              to="/cart"
-              onClick={onCartClick || onCartToggle}
-              className="p-1 hover:text-[#7C3AED] transition-colors relative"
-            >
-              <ShoppingCart className="w-5 h-5 md:w-[21px] md:h-[17px]" />
-              {totalCartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-[#DD3327] text-white text-[10px] w-[18px] h-[18px] rounded-full flex items-center justify-center">
-                  {totalCartCount}
-                </span>
-              )}
-            </Link>
+          <div className="flex items-center justify-end flex-1">
+            <div className="flex items-center space-x-[20px]">
+              <button
+                onClick={() => setIsSearchOpen(true)}
+                className="p-[5px] hover:text-[#7C3AED] transition-colors"
+              >
+                <Search className="w-[17px] h-[17px]" />
+              </button>
+              <button className="p-[5px] hover:text-[#7C3AED] transition-colors">
+                <User className="w-[17px] h-[17px]" />
+              </button>
+              <div className="pl-[10px]">
+                <Link
+                  to="/cart"
+                  onClick={onCartClick || onCartToggle}
+                  className="p-[3px] hover:text-[#7C3AED] transition-colors relative block"
+                >
+                  <ShoppingCart className="w-[21px] h-[17px]" />
+                  {totalCartCount > 0 && (
+                    <div className="absolute -top-[6px] -right-[10px] bg-[#DD3327] text-white text-[10px] w-[18px] h-[18px] rounded-[9px] flex items-center justify-center leading-[10px]">
+                      {totalCartCount}
+                    </div>
+                  )}
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
 

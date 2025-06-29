@@ -118,7 +118,7 @@ export default function MobileBottomNavigation({
       <button
         onClick={scrollToTop}
         className={cn(
-          "md:hidden fixed bottom-20 right-4 w-12 h-12 bg-[#ED1451] text-white rounded-full shadow-lg z-40 transition-all duration-300 flex items-center justify-center",
+          "md:hidden fixed bottom-20 right-4 w-12 h-12 bg-gradient-to-r from-[#7C3AED] to-[#2563EB] text-white rounded-full shadow-lg z-40 transition-all duration-300 flex items-center justify-center",
           showScrollTop
             ? "opacity-100 transform translate-y-0"
             : "opacity-0 transform translate-y-4 pointer-events-none",

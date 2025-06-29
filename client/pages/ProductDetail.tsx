@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ArrowLeftIcon, ArrowRightIcon } from "../components/ui/icons";
 import ShoppingCart from "../components/ShoppingCart";
 import Header from "../components/Header";
+import PromoBanner from "../components/PromoBanner";
 
 interface Product {
   id: string;

@@ -98,7 +98,7 @@ export default function Header() {
                   <li key={index}>
                     <a
                       href="#"
-                      className="flex items-center justify-between py-3 text-[#111] font-medium text-[15px] hover:text-[#ED1451] transition-colors border-b border-gray-100"
+                      className="flex items-center justify-between py-3 text-[#111] font-medium text-[15px] hover:text-[#7C3AED] transition-colors border-b border-gray-100"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       <span className="relative">

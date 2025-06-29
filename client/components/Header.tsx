@@ -35,61 +35,42 @@ export default function Header({
 
   const navigationItems = [
     {
-      name: "Men's",
+      name: "BottomWear",
       hasDropdown: true,
       items: [
-        "Round Neck T-Shirts",
-        "V-Neck T-Shirts",
-        "Polo T-Shirts",
-        "Long Sleeve T-Shirts",
+        "Leggings",
+        "Palazzo Pants",
         "Track Pants",
         "Shorts",
+        "Churidhar",
+        "Plus Size",
       ],
     },
     {
-      name: "Women's",
+      name: "LoungeWear",
       hasDropdown: true,
       isNew: true,
       items: [
-        "Full Length Leggings",
-        "Ankle Leggings",
-        "Churidhar Leggings",
-        "Night Wear",
-        "Saree Shapewear",
+        "Night T-Shirts",
+        "Night Dresses",
+        "Loungewear Sets",
+        "Sleep Shorts",
+        "Comfort Wear",
       ],
     },
     {
-      name: "Leggings",
+      name: "Plus Size",
       hasDropdown: true,
       items: [
-        "Flat Ankle Leggings",
-        "Flat Full-Length",
-        "Churidhar Ankle",
-        "Churidhar Full-Length",
-        "Shimmer Leggings",
-        "Striped Leggings",
+        "Plus Size Leggings",
+        "Plus Size Tops",
+        "Plus Size Dresses",
+        "Plus Size Shapewear",
       ],
     },
-    {
-      name: "Saree Shapewear",
-      hasDropdown: true,
-      items: [
-        "Lycra Cotton Shapewear",
-        "Polyester Shapewear",
-        "Shimmer Shapewear",
-      ],
-    },
-    {
-      name: "Night Wear",
-      hasDropdown: true,
-      items: ["Night T-Shirts", "3/4 Leggings", "Shorts"],
-    },
-    {
-      name: "Innerwear",
-      hasDropdown: true,
-      items: ["Basic Slips", "Adjustment Slips", "Panties"],
-    },
-    { name: "Sale", hasDropdown: false },
+    { name: "Liva Collections", hasDropdown: false },
+    { name: "Stores", hasDropdown: false },
+    { name: "Franchise", hasDropdown: false },
   ];
 
   return (

@@ -24,9 +24,7 @@ export default function Header({
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      // Navigate to search results page or filter products
       console.log("Searching for:", searchQuery);
-      // For now, just alert the search term
       alert(`Searching for: ${searchQuery}`);
       setIsSearchOpen(false);
       setSearchQuery("");
@@ -35,42 +33,49 @@ export default function Header({
 
   const navigationItems = [
     {
-      name: "BottomWear",
+      name: "Men",
+      hasDropdown: true,
+      items: [
+        "T-Shirts",
+        "Round Neck T-Shirts",
+        "V-Neck T-Shirts", 
+        "Polo T-Shirts",
+        "Long Sleeve T-Shirts",
+        "Sleeveless T-Shirts",
+        "Full Hand T-Shirts",
+        "Track Pants",
+        "Shorts"
+      ],
+    },
+    {
+      name: "Women",
       hasDropdown: true,
       items: [
         "Leggings",
-        "Palazzo Pants",
-        "Track Pants",
-        "Shorts",
-        "Churidhar",
-        "Plus Size",
-      ],
-    },
-    {
-      name: "LoungeWear",
-      hasDropdown: true,
-      isNew: true,
-      items: [
+        "Flat Ankle Leggings",
+        "Flat Full Length Leggings",
+        "Churidhar Ankle Leggings",
+        "Churidhar Full Length Leggings",
+        "Shimmer Leggings",
+        "Saree Shapewear",
+        "Lycra Cotton Shapewear",
+        "Polyester Shapewear",
+        "Shimmer Shapewear",
+        "Night Wear",
         "Night T-Shirts",
-        "Night Dresses",
-        "Loungewear Sets",
-        "Sleep Shorts",
-        "Comfort Wear",
+        "3/4 Leggings",
+        "Shorts"
       ],
     },
     {
-      name: "Plus Size",
-      hasDropdown: true,
-      items: [
-        "Plus Size Leggings",
-        "Plus Size Tops",
-        "Plus Size Dresses",
-        "Plus Size Shapewear",
-      ],
+      name: "Hot Sales",
+      hasDropdown: false,
+      isNew: true,
     },
-    { name: "Liva Collections", hasDropdown: false },
-    { name: "Stores", hasDropdown: false },
-    { name: "Franchise", hasDropdown: false },
+    { 
+      name: "About", 
+      hasDropdown: false 
+    },
   ];
 
   return (
@@ -295,11 +300,12 @@ export default function Header({
                 <p className="text-sm text-gray-500 mb-2">Popular searches:</p>
                 <div className="flex flex-wrap gap-2">
                   {[
-                    "leggings",
                     "t-shirts",
-                    "palazzo",
+                    "leggings", 
+                    "track pants",
                     "shapewear",
                     "night wear",
+                    "shorts"
                   ].map((term) => (
                     <button
                       key={term}

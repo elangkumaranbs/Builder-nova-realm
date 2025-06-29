@@ -26,28 +26,23 @@ export default function BestSelling({
   onAddToCart,
   onQuickView,
 }: BestSellingProps) {
-  // Complete leggings color palette from your list
-  const leggingsColors: ColorOption[] = [
+  // Color palette based on your notes
+  const availableColors: ColorOption[] = [
     { name: "White", color: "#FFFFFF" },
     { name: "Black", color: "#000000" },
     { name: "Pink", color: "#FF69B4" },
-    { name: "Dark Pink", color: "#FF1493" },
-    { name: "Grey", color: "#808080" },
+    { name: "Lt-Green", color: "#90EE90" },
+    { name: "Navy", color: "#000080" },
+    { name: "Yellow", color: "#FFFF00" },
     { name: "Maroon", color: "#800000" },
     { name: "T-Blue", color: "#008B8B" },
     { name: "Tea Rose", color: "#F4C2C2" },
-    { name: "Rani Rose", color: "#FF69B4" },
     { name: "Green", color: "#008000" },
-    { name: "Lt-Green", color: "#90EE90" },
-    { name: "Yellow", color: "#FFFF00" },
-    { name: "Marbled", color: "#B8860B" },
     { name: "Lavender", color: "#E6E6FA" },
     { name: "Purple", color: "#800080" },
     { name: "Aqua", color: "#00FFFF" },
-    { name: "Navy", color: "#000080" },
     { name: "Skin", color: "#FDBCB4" },
     { name: "Stone", color: "#918E85" },
-    { name: "Gojari", color: "#DAA520" },
     { name: "Orange", color: "#FFA500" },
     { name: "Wine", color: "#722F37" },
     { name: "Royal", color: "#4169E1" },
@@ -57,118 +52,117 @@ export default function BestSelling({
   ];
 
   const products: Product[] = [
+    // Men's Products
     {
       id: 1,
-      name: "Women's Full Length Leggings",
-      price: "Rs. 599.00",
-      image:
-        "https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?w=400&h=600&fit=crop",
-      rating: 5,
-      sizes: ["S", "M", "L", "XL", "XXL", "3XL", "4XL", "5XL"],
-      category: "Women's Leggings",
-      colors: leggingsColors.slice(0, 12), // Show first 12 colors
-    },
-    {
-      id: 2,
       name: "Men's Round Neck T-Shirt",
       price: "Rs. 399.00",
-      image:
-        "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=600&fit=crop",
-      rating: 4,
+      image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=600&fit=crop",
+      rating: 5,
       sizes: ["S", "M", "L", "XL", "XXL"],
       category: "Men's T-Shirts",
       colors: [
         { name: "Black", color: "#000000", isSelected: true },
         { name: "White", color: "#FFFFFF" },
         { name: "Navy", color: "#000080" },
-        { name: "Grey", color: "#808080" },
+        { name: "Royal", color: "#4169E1" },
+      ],
+    },
+    {
+      id: 2,
+      name: "Men's V-Neck T-Shirt",
+      price: "Rs. 449.00",
+      image: "https://images.unsplash.com/photo-1583743814966-8936f37f4678?w=400&h=600&fit=crop",
+      rating: 4,
+      sizes: ["S", "M", "L", "XL", "XXL"],
+      category: "Men's T-Shirts",
+      colors: [
+        { name: "White", color: "#FFFFFF" },
+        { name: "Black", color: "#000000" },
+        { name: "Navy", color: "#000080" },
+        { name: "Maroon", color: "#800000" },
       ],
     },
     {
       id: 3,
-      name: "Shimmer Leggings",
-      price: "Rs. 799.00",
-      image:
-        "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=600&fit=crop",
-      rating: 5,
-      sizes: ["S", "M", "L", "XL", "XXL"],
-      category: "Women's Leggings",
-      colors: [
-        { name: "Gold", color: "#FFD700" },
-        { name: "Silver", color: "#C0C0C0" },
-        { name: "Rose Gold", color: "#E8B4B8" },
-        { name: "Bronze", color: "#CD7F32" },
-      ],
-    },
-    {
-      id: 4,
-      name: "Churidhar Ankle Leggings",
-      price: "Rs. 449.00",
-      image:
-        "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400&h=600&fit=crop",
-      rating: 4,
-      sizes: ["S", "M", "L", "XL", "XXL"],
-      category: "Women's Leggings",
-      colors: leggingsColors.slice(12, 20), // Show colors 12-19
-    },
-    {
-      id: 5,
-      name: "Night Wear T-Shirt",
-      price: "Rs. 299.00",
-      image:
-        "https://images.unsplash.com/photo-1571945153237-4929e783af4a?w=400&h=600&fit=crop",
-      rating: 4,
-      sizes: ["S", "M", "L", "XL", "XXL"],
-      category: "Night Wear",
-      colors: [
-        { name: "Baby Pink", color: "#FFC0CB" },
-        { name: "Lavender", color: "#E6E6FA" },
-        { name: "Mint Green", color: "#98FB98" },
-        { name: "Peach", color: "#FFCBA4" },
-      ],
-    },
-    {
-      id: 6,
       name: "Men's Track Pants",
       price: "Rs. 699.00",
-      image:
-        "https://images.unsplash.com/photo-1506629905962-d997d54d4702?w=400&h=600&fit=crop",
-      rating: 4,
+      image: "https://images.unsplash.com/photo-1506629905962-d997d54d4702?w=400&h=600&fit=crop",
+      rating: 5,
       sizes: ["M", "L", "XL", "XXL"],
       category: "Men's Bottomwear",
       colors: [
         { name: "Black", color: "#000000" },
         { name: "Navy", color: "#000080" },
-        { name: "Grey", color: "#808080" },
-        { name: "Olive", color: "#808000" },
+        { name: "Maroon", color: "#800000" },
+        { name: "T-Blue", color: "#008B8B" },
+      ],
+    },
+    // Women's Products
+    {
+      id: 4,
+      name: "Women's Flat Ankle Leggings",
+      price: "Rs. 599.00",
+      image: "https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?w=400&h=600&fit=crop",
+      rating: 5,
+      sizes: ["S", "M", "L", "XL", "XXL", "3XL", "4XL", "5XL"],
+      category: "Women's Leggings",
+      colors: availableColors.slice(0, 8),
+    },
+    {
+      id: 5,
+      name: "Women's Shimmer Leggings",
+      price: "Rs. 799.00",
+      image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=600&fit=crop",
+      rating: 5,
+      sizes: ["S", "M", "L", "XL", "XXL", "3XL"],
+      category: "Women's Leggings",
+      colors: [
+        { name: "Black", color: "#000000" },
+        { name: "Navy", color: "#000080" },
+        { name: "Maroon", color: "#800000" },
+        { name: "Purple", color: "#800080" },
+      ],
+    },
+    {
+      id: 6,
+      name: "Saree Shapewear",
+      price: "Rs. 649.00",
+      image: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=400&h=600&fit=crop",
+      rating: 4,
+      sizes: ["S", "M", "L", "XL", "XXL", "3XL"],
+      category: "Saree Shapewear",
+      colors: [
+        { name: "Skin", color: "#FDBCB4" },
+        { name: "Black", color: "#000000" },
+        { name: "White", color: "#FFFFFF" },
+        { name: "Cream", color: "#FFFDD0" },
       ],
     },
     {
       id: 7,
-      name: "Flat Ankle Leggings",
+      name: "Women's Night T-Shirt",
       price: "Rs. 399.00",
-      image:
-        "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=600&fit=crop",
-      rating: 5,
+      image: "https://images.unsplash.com/photo-1571945153237-4929e783af4a?w=400&h=600&fit=crop",
+      rating: 4,
       sizes: ["S", "M", "L", "XL", "XXL"],
-      category: "Women's Leggings",
-      colors: leggingsColors.slice(20, 26), // Show remaining colors
+      category: "Night Wear",
+      colors: [
+        { name: "Pink", color: "#FF69B4" },
+        { name: "Lavender", color: "#E6E6FA" },
+        { name: "Lt-Green", color: "#90EE90" },
+        { name: "Tea Rose", color: "#F4C2C2" },
+      ],
     },
     {
       id: 8,
-      name: "Saree Shapewear",
-      price: "Rs. 599.00",
-      image:
-        "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=400&h=600&fit=crop",
+      name: "Women's 3/4 Leggings",
+      price: "Rs. 499.00",
+      image: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400&h=600&fit=crop",
       rating: 4,
       sizes: ["S", "M", "L", "XL", "XXL"],
-      category: "Saree Shapewear",
-      colors: [
-        { name: "Nude", color: "#FDBCB4" },
-        { name: "Black", color: "#000000" },
-        { name: "White", color: "#FFFFFF" },
-        { name: "Beige", color: "#F5F5DC" },
-      ],
+      category: "Women's Leggings",
+      colors: availableColors.slice(8, 14),
     },
   ];
 
@@ -194,7 +188,6 @@ export default function BestSelling({
 
   const handleColorSelect = (productId: number, colorIndex: number) => {
     console.log("Color selected:", productId, colorIndex);
-    // Implement color selection logic here
     const product = products.find((p) => p.id === productId);
     if (product && product.colors) {
       const selectedColor = product.colors[colorIndex];
@@ -211,8 +204,7 @@ export default function BestSelling({
             Best Selling Products
           </h2>
           <p className="text-[#555] text-[14px] font-normal leading-[26.25px]">
-            Discover our most popular garments with all size and color options
-            available.
+            Discover our most popular garments for men and women with all size and color options available.
           </p>
         </div>
 

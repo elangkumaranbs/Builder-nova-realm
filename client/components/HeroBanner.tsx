@@ -41,12 +41,10 @@ export default function HeroBanner() {
         <div className="flex items-center justify-center h-full">
           <div className="text-center px-6 py-8">
             <p className="text-white text-[14px] font-normal leading-relaxed mb-2">
-              Elevate your look with sleek and flattering
+              Premium Quality Garments for
             </p>
             <h1 className="text-white text-[32px] font-bold leading-tight mb-6">
-              Ankle
-              <br />
-              Leggings
+              Men & Women
             </h1>
             <button className="bg-white text-[#7C3AED] hover:bg-gray-100 px-6 py-3 rounded text-[14px] font-semibold transition-all duration-200 shadow-lg hover:shadow-xl">
               SHOP NOW
@@ -63,11 +61,16 @@ export default function HeroBanner() {
               Premium Garments Collection
             </h1>
             <p className="text-[18px] font-normal leading-relaxed mb-8">
-              Discover our range of T-Shirts, Leggings, Night Wear & More
+              Discover our range of T-Shirts, Leggings, Shapewear, Night Wear & More
             </p>
-            <button className="bg-white text-[#7C3AED] hover:bg-gray-100 px-8 py-4 rounded text-[16px] font-semibold transition-all duration-200 shadow-lg hover:shadow-xl">
-              EXPLORE COLLECTION
-            </button>
+            <div className="flex gap-4 justify-center">
+              <button className="bg-white text-[#7C3AED] hover:bg-gray-100 px-8 py-4 rounded text-[16px] font-semibold transition-all duration-200 shadow-lg hover:shadow-xl">
+                SHOP MEN'S
+              </button>
+              <button className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-[#7C3AED] px-8 py-4 rounded text-[16px] font-semibold transition-all duration-200">
+                SHOP WOMEN'S
+              </button>
+            </div>
           </div>
         </div>
       </div>

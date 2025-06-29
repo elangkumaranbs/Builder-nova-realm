@@ -1,34 +1,44 @@
 export default function InstagramFeed() {
   const socialPosts = [
     {
-      content: "🌟 Customer Love: 'Best leggings ever! So comfortable!'",
+      content: "🌟 Customer Love: 'Best t-shirts ever! Perfect fit and quality!'",
       user: "@happycustomer1",
       likes: "💜 234",
     },
     {
-      content: "📦 Just got my order! Fast delivery and great quality",
+      content: "📦 Just got my leggings order! Amazing quality and fast delivery",
       user: "@stylequeen",
       likes: "💜 156",
     },
     {
-      content: "🎨 Love all the color options available!",
+      content: "🎨 Love all the color options available for men's t-shirts!",
       user: "@fashionista",
       likes: "💜 189",
     },
     {
-      content: "👕 Men's t-shirts are perfect fit and quality",
+      content: "👕 Men's polo t-shirts are perfect fit and premium quality",
       user: "@fitguy",
       likes: "💜 98",
     },
     {
-      content: "✨ Shimmer leggings are absolutely gorgeous!",
+      content: "✨ Shimmer leggings are absolutely gorgeous! Highly recommend",
       user: "@sparkle_girl",
       likes: "💜 267",
     },
     {
-      content: "🌙 Night wear collection is so comfy!",
+      content: "🌙 Night wear collection is so comfortable and stylish!",
       user: "@comfy_sleeper",
       likes: "💜 143",
+    },
+    {
+      content: "💪 Track pants are perfect for workouts and casual wear",
+      user: "@fitness_lover",
+      likes: "💜 201",
+    },
+    {
+      content: "👗 Saree shapewear gives the perfect silhouette! Love it",
+      user: "@traditional_style",
+      likes: "💜 178",
     },
   ];
 
@@ -54,7 +64,7 @@ export default function InstagramFeed() {
         </div>
 
         {/* Social Posts Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {socialPosts.map((post, index) => (
             <div
               key={index}
@@ -83,8 +93,7 @@ export default function InstagramFeed() {
           <div className="bg-gradient-to-r from-[#7C3AED] to-[#2563EB] rounded-lg p-8 text-white">
             <h3 className="text-[24px] font-bold mb-2">Share Your Style!</h3>
             <p className="text-[16px] opacity-90 mb-4">
-              Tag us in your photos wearing our products for a chance to be
-              featured
+              Tag us in your photos wearing our products for a chance to be featured
             </p>
             <div className="flex justify-center space-x-4">
               <span className="bg-white bg-opacity-20 px-4 py-2 rounded-full text-sm">

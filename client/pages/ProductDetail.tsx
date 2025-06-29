@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ArrowLeftIcon, ArrowRightIcon } from "../components/ui/icons";
 import ShoppingCart from "../components/ShoppingCart";
+import Header from "../components/Header";
 
 interface Product {
   id: string;

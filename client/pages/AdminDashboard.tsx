@@ -626,12 +626,11 @@ function ProductModal({ product, categories, onSave, onClose }: ProductModalProp
         // Generate unique filename
         const fileExt = file.name.split('.').pop();
         const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-        const filePath = `product-images/${fileName}`;
 
-        // Upload to Supabase Storage
+        // Upload to Supabase Storage - Fixed path issue
         const { data, error } = await supabase.storage
           .from('product-images')
-          .upload(filePath, file, {
+          .upload(fileName, file, {
             cacheControl: '3600',
             upsert: false
           });
@@ -645,7 +644,7 @@ function ProductModal({ product, categories, onSave, onClose }: ProductModalProp
         // Get public URL
         const { data: { publicUrl } } = supabase.storage
           .from('product-images')
-          .getPublicUrl(filePath);
+          .getPublicUrl(fileName);
 
         uploadedUrls.push(publicUrl);
       }
@@ -673,11 +672,10 @@ function ProductModal({ product, categories, onSave, onClose }: ProductModalProp
       try {
         const urlParts = imageUrl.split('/');
         const fileName = urlParts[urlParts.length - 1];
-        const filePath = `product-images/${fileName}`;
         
         await supabase.storage
           .from('product-images')
-          .remove([filePath]);
+          .remove([fileName]);
       } catch (error) {
         console.error('Error deleting image from storage:', error);
       }

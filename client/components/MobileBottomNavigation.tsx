@@ -90,8 +90,8 @@ export default function MobileBottomNavigation({
                 className={cn(
                   "flex flex-col items-center justify-center py-2 px-3 min-w-[60px] transition-colors duration-200",
                   item.active
-                    ? "text-[#ED1451]"
-                    : "text-gray-600 hover:text-[#ED1451]",
+                    ? "text-[#7C3AED]"
+                    : "text-gray-600 hover:text-[#7C3AED]",
                 )}
               >
                 <IconComponent

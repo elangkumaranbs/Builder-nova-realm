@@ -1,7 +1,15 @@
 import { Search, User, ShoppingCart, Menu } from "lucide-react";
 import { useState } from "react";
 
-export default function Header() {
+interface HeaderProps {
+  cartItemsCount?: number;
+  onCartClick?: () => void;
+}
+
+export default function Header({
+  cartItemsCount = 0,
+  onCartClick,
+}: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 

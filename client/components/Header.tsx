@@ -5,13 +5,13 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navigationItems = [
-    { name: "BottomWear", hasDropdown: true },
-    { name: "LoungeWear", hasDropdown: true, isNew: true },
-    { name: "InnerWear", hasDropdown: true },
-    { name: "Plus Size", hasDropdown: true },
-    { name: "Liva Collections", hasDropdown: false },
-    { name: "Stores", hasDropdown: false },
-    { name: "Franchise", hasDropdown: false },
+    { name: "Men's", hasDropdown: true },
+    { name: "Women's", hasDropdown: true, isNew: true },
+    { name: "Leggings", hasDropdown: true },
+    { name: "Saree Shapewear", hasDropdown: true },
+    { name: "Night Wear", hasDropdown: true },
+    { name: "Innerwear", hasDropdown: true },
+    { name: "Sale", hasDropdown: false },
   ];
 
   return (

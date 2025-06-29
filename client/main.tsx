@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
+import ProductDetail from "./pages/ProductDetail";
 import PexelsDemo from "./pages/PexelsDemo";
 import NotFound from "./pages/NotFound";
 

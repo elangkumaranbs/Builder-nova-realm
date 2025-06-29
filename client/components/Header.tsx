@@ -77,10 +77,10 @@ export default function Header() {
 
           {/* Right side icons */}
           <div className="flex items-center space-x-3 md:space-x-5">
-            <button className="p-1 hover:text-[#ED1451] transition-colors">
+            <button className="p-1 hover:text-[#7C3AED] transition-colors">
               <Search className="w-5 h-5 md:w-[17px] md:h-[17px]" />
             </button>
-            <button className="p-1 hover:text-[#ED1451] transition-colors relative">
+            <button className="p-1 hover:text-[#7C3AED] transition-colors relative">
               <ShoppingCart className="w-5 h-5 md:w-[21px] md:h-[17px]" />
               <span className="absolute -top-2 -right-2 bg-[#DD3327] text-white text-[10px] w-[18px] h-[18px] rounded-full flex items-center justify-center">
                 0

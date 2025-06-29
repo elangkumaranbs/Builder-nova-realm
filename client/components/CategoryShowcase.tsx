@@ -3,22 +3,25 @@ import { ShopNowButton } from "./ui/enhanced-button";
 export default function CategoryShowcase() {
   const categories = [
     {
-      title: "ShimmerLeggings",
+      title: "Men's Collection",
+      subtitle: "T-Shirts & Bottomwear",
       image:
         "https://cdn.builder.io/api/v1/image/assets/TEMP/48d1386a9607ae25c17d61dc236c4649fad1fc89?width=1273",
-      alt: "Shimmer Leggings Collection",
+      alt: "Men's T-Shirts and Bottomwear Collection",
     },
     {
-      title: "AnkleLeggings",
+      title: "Women's Leggings",
+      subtitle: "All Colors Available",
       image:
         "https://cdn.builder.io/api/v1/image/assets/TEMP/2cf1c2a673263ded623b4c7149393213f5e24427?width=1273",
-      alt: "Ankle Leggings Collection",
+      alt: "Women's Leggings in Multiple Colors",
     },
     {
-      title: "KurtiPants",
+      title: "Night Wear",
+      subtitle: "Comfort & Style",
       image:
         "https://cdn.builder.io/api/v1/image/assets/TEMP/997956d213b6573d61b0c3c62b5334bb48501c48?width=1273",
-      alt: "Kurti Pants Collection",
+      alt: "Night Wear Collection",
     },
   ];
 

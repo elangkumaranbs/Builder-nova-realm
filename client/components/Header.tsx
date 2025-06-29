@@ -172,35 +172,64 @@ export default function Header() {
               <ul className="space-y-1">
                 {navigationItems.map((item, index) => (
                   <li key={index}>
-                    <a
-                      href="#"
-                      className="flex items-center justify-between py-3 text-[#111] font-medium text-[15px] hover:text-[#7C3AED] transition-colors border-b border-gray-100"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      <span className="relative">
-                        {item.name}
-                        {item.isNew && (
-                          <span className="ml-2 bg-[#516CF4] text-white text-[9px] font-semibold px-2 py-1 rounded-sm uppercase">
-                            New
-                          </span>
+                    <div>
+                      <button
+                        className="flex items-center justify-between w-full py-3 text-[#111] font-medium text-[15px] hover:text-[#7C3AED] transition-colors border-b border-gray-100"
+                        onClick={() => {
+                          if (item.hasDropdown) {
+                            setActiveDropdown(
+                              activeDropdown === item.name ? null : item.name,
+                            );
+                          } else {
+                            setIsMobileMenuOpen(false);
+                          }
+                        }}
+                      >
+                        <span className="relative">
+                          {item.name}
+                          {item.isNew && (
+                            <span className="ml-2 bg-[#516CF4] text-white text-[9px] font-semibold px-2 py-1 rounded-sm uppercase">
+                              New
+                            </span>
+                          )}
+                        </span>
+                        {item.hasDropdown && (
+                          <svg
+                            className={`w-4 h-4 opacity-50 transition-transform duration-200 ${
+                              activeDropdown === item.name ? "rotate-90" : ""
+                            }`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M9 5l7 7-7 7"
+                            />
+                          </svg>
                         )}
-                      </span>
-                      {item.hasDropdown && (
-                        <svg
-                          className="w-4 h-4 opacity-50"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 5l7 7-7 7"
-                          />
-                        </svg>
-                      )}
-                    </a>
+                      </button>
+
+                      {/* Mobile Submenu */}
+                      {item.hasDropdown &&
+                        item.items &&
+                        activeDropdown === item.name && (
+                          <div className="pl-4 py-2 bg-gray-50">
+                            {item.items.map((subItem, subIndex) => (
+                              <a
+                                key={subIndex}
+                                href="#"
+                                className="block py-2 text-[13px] text-[#666] hover:text-[#7C3AED] transition-colors"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                              >
+                                {subItem}
+                              </a>
+                            ))}
+                          </div>
+                        )}
+                    </div>
                   </li>
                 ))}
               </ul>

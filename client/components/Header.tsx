@@ -94,11 +94,11 @@ export default function Header({
 
           {/* Logo - Center on mobile, left on desktop */}
           <div className="flex-1 md:flex-none flex justify-center md:justify-start">
-            <div className="h-8 md:h-12 flex items-center">
+            <Link to="/" className="h-8 md:h-12 flex items-center">
               <span className="text-[20px] md:text-[24px] font-bold bg-gradient-to-r from-[#7C3AED] to-[#2563EB] bg-clip-text text-transparent">
                 Your Brand
               </span>
-            </div>
+            </Link>
           </div>
 
           {/* Desktop Navigation - Hidden on mobile */}

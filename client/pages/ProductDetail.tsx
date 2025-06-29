@@ -647,6 +647,15 @@ export default function ProductDetail() {
           </div>
         </div>
       </div>
+
+      {/* Shopping Cart Drawer */}
+      <ShoppingCart
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        cartItems={cartItems}
+        onUpdateQuantity={handleUpdateQuantity}
+        onRemoveItem={handleRemoveItem}
+      />
     </div>
   );
 }

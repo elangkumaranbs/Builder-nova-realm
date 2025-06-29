@@ -91,7 +91,14 @@ export default function Header() {
           <nav className="hidden md:flex items-center flex-1 justify-center">
             <ul className="flex items-center space-x-0">
               {navigationItems.map((item, index) => (
-                <li key={index} className="relative">
+                <li
+                  key={index}
+                  className="relative group"
+                  onMouseEnter={() =>
+                    item.hasDropdown && setActiveDropdown(item.name)
+                  }
+                  onMouseLeave={() => setActiveDropdown(null)}
+                >
                   <a
                     href="#"
                     className="flex items-center px-4 py-2.5 text-[#111] font-medium text-[15px] leading-[26.25px] hover:text-[#7C3AED] transition-colors"
@@ -106,7 +113,9 @@ export default function Header() {
                     </span>
                     {item.hasDropdown && (
                       <svg
-                        className="ml-1 w-3.5 h-3.5 opacity-50"
+                        className={`ml-1 w-3.5 h-3.5 opacity-50 transition-transform duration-200 ${
+                          activeDropdown === item.name ? "rotate-180" : ""
+                        }`}
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -120,6 +129,23 @@ export default function Header() {
                       </svg>
                     )}
                   </a>
+
+                  {/* Dropdown Menu */}
+                  {item.hasDropdown &&
+                    item.items &&
+                    activeDropdown === item.name && (
+                      <div className="absolute top-full left-0 mt-1 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50 py-2">
+                        {item.items.map((subItem, subIndex) => (
+                          <a
+                            key={subIndex}
+                            href="#"
+                            className="block px-4 py-2 text-[14px] text-[#111] hover:text-[#7C3AED] hover:bg-gray-50 transition-colors"
+                          >
+                            {subItem}
+                          </a>
+                        ))}
+                      </div>
+                    )}
                 </li>
               ))}
             </ul>

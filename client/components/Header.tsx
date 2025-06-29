@@ -1,9 +1,12 @@
 import { Search, User, ShoppingCart, Menu } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 interface HeaderProps {
   cartItemsCount?: number;
+  cartCount?: number;
   onCartClick?: () => void;
+  onCartToggle?: () => void;
 }
 
 export default function Header({

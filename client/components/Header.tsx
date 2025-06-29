@@ -1,6 +1,7 @@
 import { Search, User, ShoppingCart, Menu, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import LoginPage from "../pages/LoginPage";
 
 interface HeaderProps {
   cartItemsCount?: number;
@@ -20,6 +21,7 @@ export default function Header({
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -166,7 +168,10 @@ export default function Header({
               >
                 <Search className="w-[17px] h-[17px]" />
               </button>
-              <button className="p-[5px] hover:text-[#7C3AED] transition-colors">
+              <button 
+                onClick={() => setIsLoginModalOpen(true)}
+                className="p-[5px] hover:text-[#7C3AED] transition-colors"
+              >
                 <User className="w-[17px] h-[17px]" />
               </button>
               <div className="pl-[10px]">
@@ -324,6 +329,14 @@ export default function Header({
             </form>
           </div>
         </div>
+      )}
+
+      {/* Login Modal */}
+      {isLoginModalOpen && (
+        <LoginPage
+          isModal={true}
+          onClose={() => setIsLoginModalOpen(false)}
+        />
       )}
     </header>
   );

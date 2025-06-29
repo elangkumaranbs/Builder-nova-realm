@@ -183,8 +183,19 @@ export default function ProductDetail() {
     setExpandedSection(expandedSection === section ? null : section);
   };
 
+  const totalCartItems = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0,
+  );
+
   return (
     <div className="min-h-screen bg-white">
+      {/* Header */}
+      <Header
+        cartItemsCount={totalCartItems}
+        onCartClick={() => setIsCartOpen(true)}
+      />
+
       {/* Breadcrumb */}
       <div className="bg-white py-6">
         <div className="max-w-[1320px] mx-auto px-8">

@@ -121,7 +121,7 @@ export default function CartPage() {
           <div className="w-full max-w-[1320px] px-4">
             <div className="flex justify-center">
               <div className="w-full max-w-[1290px] pt-[50px] px-4">
-                <div className="flex justify-between items-start flex-wrap gap-8">
+                <div className="flex flex-col lg:flex-row justify-between items-start gap-8">
                   {/* Cart Items Section */}
                   <div className="w-full lg:w-[882px] pb-8">
                     <div className="flex flex-col gap-8">

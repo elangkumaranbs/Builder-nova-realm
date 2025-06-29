@@ -44,7 +44,7 @@ export default function Header() {
                 <li key={index} className="relative">
                   <a
                     href="#"
-                    className="flex items-center px-4 py-2.5 text-[#111] font-medium text-[15px] leading-[26.25px] hover:text-[#ED1451] transition-colors"
+                    className="flex items-center px-4 py-2.5 text-[#111] font-medium text-[15px] leading-[26.25px] hover:text-[#7C3AED] transition-colors"
                   >
                     <span className="relative">
                       {item.name}

@@ -5,23 +5,20 @@ export default function CategoryShowcase() {
     {
       title: "Men's Collection",
       subtitle: "T-Shirts & Bottomwear",
-      image:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/48d1386a9607ae25c17d61dc236c4649fad1fc89?width=1273",
-      alt: "Men's T-Shirts and Bottomwear Collection",
+      gradient: "from-blue-500 to-blue-700",
+      icon: "👔",
     },
     {
       title: "Women's Leggings",
       subtitle: "All Colors Available",
-      image:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/2cf1c2a673263ded623b4c7149393213f5e24427?width=1273",
-      alt: "Women's Leggings in Multiple Colors",
+      gradient: "from-purple-500 to-pink-500",
+      icon: "👖",
     },
     {
       title: "Night Wear",
       subtitle: "Comfort & Style",
-      image:
-        "https://cdn.builder.io/api/v1/image/assets/TEMP/997956d213b6573d61b0c3c62b5334bb48501c48?width=1273",
-      alt: "Night Wear Collection",
+      gradient: "from-indigo-500 to-purple-600",
+      icon: "🌙",
     },
   ];
 

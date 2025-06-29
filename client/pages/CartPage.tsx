@@ -126,28 +126,41 @@ export default function CartPage() {
                   <div className="w-full lg:w-[882px] pb-8">
                     <div className="flex flex-col gap-8">
                       {/* Cart Items Table */}
-                      <div className="border border-[#EBEBEB] rounded-sm overflow-hidden">
-                        {/* Table Header - Hidden on mobile */}
-                        <div className="hidden md:flex h-[47.5px] bg-white border-b border-[#EBEBEB]">
-                          <div className="flex-1 px-[21px] py-[14px] border-r border-[#EBEBEB]">
-                            <span className="text-black font-['Inter'] text-[13px] font-medium leading-[21px]">
-                              Product
-                            </span>
-                          </div>
-                          <div className="w-[201px] px-[21px] py-[14px] border-r border-[#EBEBEB]">
-                            <span className="text-black font-['Inter'] text-[13px] font-medium leading-[21px]">
-                              Quantity
-                            </span>
-                          </div>
-                          <div className="w-[156px] px-[21px] py-[14px] border-r border-[#EBEBEB]">
-                            <span className="text-black font-['Inter'] text-[13px] font-medium leading-[21px]">
-                              Total
-                            </span>
-                          </div>
-                          <div className="w-[54px]"></div>
+                      {cartItems.length === 0 ? (
+                        <div className="border border-[#EBEBEB] rounded-sm p-12 text-center">
+                          <p className="text-[#555] font-['Inter'] text-[16px] mb-4">
+                            Your cart is empty
+                          </p>
+                          <Link
+                            to="/"
+                            className="inline-block bg-black text-white px-8 py-3 rounded-[30px] font-['Inter'] text-[12px] font-semibold uppercase hover:bg-gray-800 transition-colors"
+                          >
+                            Continue Shopping
+                          </Link>
                         </div>
+                      ) : (
+                        <div className="border border-[#EBEBEB] rounded-sm overflow-hidden">
+                          {/* Table Header - Hidden on mobile */}
+                          <div className="hidden md:flex h-[47.5px] bg-white border-b border-[#EBEBEB]">
+                            <div className="flex-1 px-[21px] py-[14px] border-r border-[#EBEBEB]">
+                              <span className="text-black font-['Inter'] text-[13px] font-medium leading-[21px]">
+                                Product
+                              </span>
+                            </div>
+                            <div className="w-[201px] px-[21px] py-[14px] border-r border-[#EBEBEB]">
+                              <span className="text-black font-['Inter'] text-[13px] font-medium leading-[21px]">
+                                Quantity
+                              </span>
+                            </div>
+                            <div className="w-[156px] px-[21px] py-[14px] border-r border-[#EBEBEB]">
+                              <span className="text-black font-['Inter'] text-[13px] font-medium leading-[21px]">
+                                Total
+                              </span>
+                            </div>
+                            <div className="w-[54px]"></div>
+                          </div>
 
-                        {/* Cart Items */}
+                          {/* Cart Items */}
                         {cartItems.map((item) => (
                           <div
                             key={item.id}
@@ -176,10 +189,7 @@ export default function CartPage() {
                                   <div className="flex items-center border border-[#EBEBEB] rounded-md bg-[#F5F5F5] p-1">
                                     <button
                                       onClick={() =>
-                                        updateQuantity(
-                                          item.id,
-                                          item.quantity - 1,
-                                        )
+                                        updateQuantity(item.id, item.quantity - 1)
                                       }
                                       className="w-[30px] h-[30px] flex items-center justify-center hover:bg-white rounded transition-colors"
                                     >
@@ -190,10 +200,7 @@ export default function CartPage() {
                                     </div>
                                     <button
                                       onClick={() =>
-                                        updateQuantity(
-                                          item.id,
-                                          item.quantity + 1,
-                                        )
+                                        updateQuantity(item.id, item.quantity + 1)
                                       }
                                       className="w-[30px] h-[30px] flex items-center justify-center hover:bg-white rounded transition-colors"
                                     >
@@ -202,11 +209,7 @@ export default function CartPage() {
                                   </div>
                                   <div className="flex items-center gap-4">
                                     <span className="text-black font-['Inter'] text-[15px] font-medium">
-                                      Rs.{" "}
-                                      {(
-                                        item.price * item.quantity
-                                      ).toLocaleString()}
-                                      .00
+                                      Rs. {(item.price * item.quantity).toLocaleString()}.00
                                     </span>
                                     <button
                                       onClick={() => removeItem(item.id)}
@@ -274,9 +277,7 @@ export default function CartPage() {
                               <div className="w-[156px] px-[21px] py-[63px] border-r border-[#EBEBEB]">
                                 <span className="text-black font-['Inter'] text-[13px] font-medium leading-[19.6px]">
                                   Rs.{" "}
-                                  {(
-                                    item.price * item.quantity
-                                  ).toLocaleString()}
+                                  {(item.price * item.quantity).toLocaleString()}
                                   .00
                                 </span>
                               </div>
